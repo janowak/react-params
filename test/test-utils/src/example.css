@@ -1,0 +1,41 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  background: white;
+}
+
+#root > * {
+  margin-bottom: 4px;
+
+  label {
+    display: inline-block;
+    margin-right: 12px;
+    font-weight: 500;
+    width: 100px;
+    text-align: left;
+  }
+}
+
+hr {
+  height: 2px;
+  width: 100%;
+}
+
+h3 {
+  text-decoration: underline;
+  font-size: 1.2em;
+  font-weight: normal;
+}
+
+input {
+  padding: 4px;
+}
+
+
+

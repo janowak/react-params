@@ -1,0 +1,60 @@
+{
+  "name": "@react-params/core",
+  "version": "0.0.3",
+  "description": "",
+  "scripts": {
+    "build": "tsc -b && vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/janowak/react-params.git",
+    "directory": "packages/react-router"
+  },
+  "homepage": "https://github.com/janowak/react-params",
+  "keywords": [
+    "react",
+    "params",
+    "react-router",
+    "typescript"
+  ],
+  "author": "Jakub Nowak <kubanowak@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@tanstack/config": "^0.13.3",
+    "@types/lodash-es": "^4.17.12",
+    "@types/react": "^18.3.8",
+    "@types/react-dom": "^18.3.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "dependencies": {
+    "@tanstack/react-store": "^0.5.5",
+    "lodash-es": "^4.17.21"
+  },
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
+  },
+  "type": "module",
+  "types": "dist/esm/index.d.ts",
+  "main": "dist/cjs/index.cjs",
+  "module": "dist/esm/index.js",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.cts",
+        "default": "./dist/cjs/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "src"
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "name": "@react-params/react-router",
+  "version": "0.0.3",
+  "description": "",
+  "author": "Jakub Nowak <kubanowak@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/janowak/react-params.git",
+    "directory": "packages/react-router"
+  },
+  "homepage": "https://github.com/janowak/react-params",
+  "keywords": [
+    "react",
+    "params",
+    "react-router",
+    "typescript"
+  ],
+  "scripts": {
+    "build": "tsc -b && vite build"
+  },
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0",
+    "react-router-dom": "^6.0.0"
+  },
+  "dependencies": {
+    "@react-params/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "eslint": "^9.9.0",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.9",
+    "globals": "^15.9.0",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.0.1",
+    "@tanstack/config": "^0.13.3",
+    "react-router-dom": "^6.26.2"
+  },
+  "type": "module",
+  "types": "dist/esm/index.d.ts",
+  "main": "dist/cjs/index.cjs",
+  "module": "dist/esm/index.js",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.cts",
+        "default": "./dist/cjs/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "src"
+  ]
+}
