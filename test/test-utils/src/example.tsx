@@ -60,7 +60,7 @@ const Component = () => {
                 Increase number
             </button>
             <div>
-                <input placeholder={"New name"} onChange={(e) => setName(e.target.value)}/>
+                <input value={name} placeholder={"New name"} onChange={(e) => setName(e.target.value)}/>
             </div>
         </>
     )

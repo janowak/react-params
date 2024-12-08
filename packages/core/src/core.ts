@@ -2,16 +2,9 @@ import {useCallback, useMemo} from "react";
 import {Store, useStore} from "@tanstack/react-store";
 import {isEqual, once} from "lodash-es";
 
-import { ParamStore } from "./store";
-import {
-    paramsTransitioning,
-    getRenderingType,
-    getValue,
-    isClient,
-    isParamsTransition,
-    useSmartValue
-} from "./utils";
-import { decodeParam, encodeParam } from "./encoding";
+import {ParamStore} from "./store";
+import {getRenderingType, getValue, isClient, isParamsTransition, paramsTransitioning, useSmartValue} from "./utils";
+import {decodeParam, encodeParam} from "./encoding";
 
 import type {API, OptionsWithDefault, Setter, Value} from "./types";
 import {useContextApi} from "./use-api";
@@ -35,15 +28,14 @@ export const createParams = () => {
             if (isParamsTransition(state)) {
                 return;
             }
-            paramsStore.setState(()=> getLatestParams(api))
+            paramsStore.setState(() => getLatestParams(api))
         });
         if (isClient) {
-            paramsStore = new Store<Record<string, string>>({});
-            paramsStore.state = getLatestParams(api);
+            paramsStore = new Store<Record<string, string>>(getLatestParams(api));
         }
     });
 
-    const decodeWithDefault = <T,>(value: string | undefined, defaultValue: Value<T>, options: OptionsWithDefault<T>): T => {
+    const decodeWithDefault = <T, >(value: string | undefined, defaultValue: Value<T>, options: OptionsWithDefault<T>): T => {
         const internalDefaultValue = getValue(defaultValue);
         try {
             if (value === undefined) {
@@ -58,28 +50,30 @@ export const createParams = () => {
             return decoded
         } catch {
             const onErrorValue = options.onError?.(value, undefined)
-            return  onErrorValue ?? internalDefaultValue
+            return onErrorValue ?? internalDefaultValue
         }
     }
 
-    const useParamGet = <T,>(
+    const useParamGet = <T, >(
         paramName: string,
         options: OptionsWithDefault<T>,
     ) => {
         const contextApi = useContextApi();
-        init(contextApi, isClient);
+        if (isClient) {
+            init(contextApi, isClient);
+        }
 
         const {defaultValue} = options;
         const smartDefaultValue = useSmartValue(defaultValue);
 
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const value = isClient ? useStore(paramsStore, (s) => s[paramName]) : getLatestParams(api)[paramName];
+        const value = isClient ? useStore(paramsStore, (s) => s[paramName]) : getLatestParams(contextApi)[paramName];
         const decodedValue = useMemo(() => decodeWithDefault(value, smartDefaultValue, options), [value, smartDefaultValue, options]);
 
         return useSmartValue(decodedValue) as T
     }
 
-    const useParamSet = <T,S extends object = object>(
+    const useParamSet = <T, S extends object = object>(
         paramName: string,
         options: OptionsWithDefault<T>,
     ) => {
@@ -97,7 +91,7 @@ export const createParams = () => {
             const {updateType = "replaceIn", encode} = options;
             const currentValue = paramsStore.state[paramName];
             const internalValue = typeof value === "function"
-                ? ( value as (prev: T) => T )(decodeWithDefault(currentValue, smartDefaultValue, options))
+                ? (value as (prev: T) => T)(decodeWithDefault(currentValue, smartDefaultValue, options))
                 : value;
 
             const newValue = encodeParam(internalValue, encode);
@@ -132,7 +126,7 @@ export const createParams = () => {
         }, [paramName, smartDefaultValue, options])
     }
 
-    const useParam = <T,>(
+    const useParam = <T, >(
         paramName: string,
         options: OptionsWithDefault<T>,
     ) => {

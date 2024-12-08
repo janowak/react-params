@@ -7,6 +7,9 @@ build PROJ:
 build-remix:
     just build @react-params/remix
 
+build-core:
+    just build @react-params/core
+
 publish PROJ:
     pnpm publish --filter {{PROJ}} --access public
 
