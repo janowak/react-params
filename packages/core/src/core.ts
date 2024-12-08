@@ -56,9 +56,9 @@ export const createParams = () => {
                 return internalDefaultValue
             }
             return decoded
-        } catch (_e) {
-            options.onError?.(value, undefined)
-            return internalDefaultValue
+        } catch {
+            const onErrorValue = options.onError?.(value, undefined)
+            return  onErrorValue ?? internalDefaultValue
         }
     }
 

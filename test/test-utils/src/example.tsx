@@ -6,11 +6,11 @@ import {create, p} from "@react-params/react-router";
 const params = create({
     "name": p.string({updateType: "replaceIn"}).withDefault("kuba"),
     "details": p.object<{ address: string | null }>().withDefault({address: "address"}),
+    "favorite-number": p.number().withDefault(11),
     "favorite-colors": p.list({
         separator: ",",
         item: p.string(),
     }).withDefault(["red"]),
-    "favorite-number": p.number().withDefault(11),
 })
 
 const Component = () => {

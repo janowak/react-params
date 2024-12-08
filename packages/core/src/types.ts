@@ -37,7 +37,6 @@ export type DialogValue<T> = {
 type Dispatch<A> = (value: A) => void;
 export type Setter<S> = S | ((prevState: S) => S);
 
-
 export type FinalOptions<T> = UrlOptions & Validator<T> & ValueOptions<T>
 export type Options<T> = SerializerOptions<T> & FinalOptions<T> & {type: "value" | "dialog"}
 export type OptionsWithDefault<T> = Require<Options<T>, "defaultValue">
@@ -86,8 +85,9 @@ type Shape = "value" | "dialog" | "page"
 
 export type Validator<T> = {
     validate?: (value:T) => boolean,
-    onError?: (serializedValue: string | undefined, value?: T) => void,
+    onError?: (serializedValue: string | undefined, value?: T) => T | undefined,
 }
+
 
 type BaseBuilder<T, Type extends Shape> = {
     withDefault: (value: NonNullable<T>) => Builder<NonNullable<T>, Type>
@@ -114,13 +114,16 @@ type Page = {
     page: number,
     size: number,
 }
+
+type ParamBuilder<T> = (options?: UrlOptions) => Builder<T | null, "value">
+
 export type OptionsBuilder = {
-    string: (options?: UrlOptions) => Builder<string | null, "value">,
-    number: (options?: UrlOptions) => Builder<number | null, "value">,
-    boolean: (options?: UrlOptions) => Builder<boolean | null, "value">,
-    datetime: (options?: UrlOptions) => Builder<Date | null, "value">,
-    date: (options?: UrlOptions) => Builder<Date | null, "value">,
-    object: <T extends object>(options?: Options<T | null>) => Builder<T | null, "value">,
+    string: ParamBuilder<string>,
+    number: ParamBuilder<number>,
+    boolean: ParamBuilder<boolean>,
+    datetime: ParamBuilder<Date>,
+    date: ParamBuilder<Date>,
+    object: <T extends object>(options?: UrlOptions) => Builder<T | null, "value">,
     list: <T>(options?: ListOptions<T>) => ListBuilder<NonNullable<T>[] | null, "value">,
     page: (options?: PageOptions) => Builder<Page, "page">,
 }
