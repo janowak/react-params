@@ -1,9 +1,11 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import Example from '../../test-utils/src/example.tsx'
+import {renderExample} from '../../test-utils/src/example.tsx'
 import './index.css'
 import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from "react-router-dom";
-import {ReactRouterApiProvider} from "@react-params/react-router";
+import {ReactRouterApiProvider, create, p} from "@react-params/react-router";
+
+const Example =  renderExample(create, p);
 
 export const router = createBrowserRouter(
     createRoutesFromElements(

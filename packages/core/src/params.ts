@@ -1,19 +1,20 @@
-import {createParams} from "./core";
+import {createParams, ParamsCore} from "./core";
 import {
-    BuildArg,
-    Serializer,
-    DialogValue,
-    Params,
+    AllTypedOptions,
+    BuildArg, Dispatch,
     FinalOptions,
+    InferValue,
     ListOptions,
     OptionsBuilder,
+    Params,
     RequiredOptions,
     Schema,
+    Serializer, Setter,
+    TransformParams,
     UrlOptions,
     Validator
 } from "./types";
 import {camelCaseToKebab, getValue, useMemoOptions} from "./utils";
-import {createWrappers} from "./wrappers";
 import {
     booleanSerializer,
     createListSerializer,
@@ -25,12 +26,14 @@ import {
     numberSerializer,
     stringSerializer
 } from "./encoding";
+import {once} from "lodash-es";
+import {useMemo} from "react";
 
 type OptionsConfig = {
     [key in keyof OptionsBuilder]?: unknown
 }
 
-const typeBasedOptions: OptionsConfig =  {
+const typeBasedOptions: OptionsConfig = {
     string: {
         ...stringSerializer,
     },
@@ -50,9 +53,13 @@ const typeBasedOptions: OptionsConfig =  {
 
 class InternalBuilder {
     state: RequiredOptions<unknown>
+    transformParams: TransformParams<unknown, unknown> | null
+
     constructor(state: RequiredOptions<unknown>) {
         this.state = state;
+        this.transformParams = null
     }
+
     withSerializer(serializer: Serializer<unknown>) {
         this.state = {
             ...this.state,
@@ -60,6 +67,7 @@ class InternalBuilder {
         }
         return this;
     }
+
     validate(validator: Validator<unknown>) {
         this.state = {
             ...this.state,
@@ -67,6 +75,7 @@ class InternalBuilder {
         }
         return this;
     }
+
     withDefault(value: NonNullable<unknown>) {
         this.state = {
             ...this.state,
@@ -74,50 +83,106 @@ class InternalBuilder {
         }
         return this;
     }
-    asDialog() {
-        return {
-            state: {
-                ...this.state,
-                type: "dialog",
-            }
-        }
+
+    transform<SetRes>(params: TransformParams<unknown, SetRes>) {
+        this.transformParams = params;
+        return this;
     }
+}
+
+const createInternalBuilder = (key: keyof OptionsBuilder, value?: UrlOptions) => {
+    const options = typeBasedOptions[key] || {};
+
+    const listOptions = key === "list" ? createListSerializer(value as ListOptions<unknown>) : {}
+    const defaultSerializers = {
+        encode: defaultEncoder,
+        decode: defaultDecoder,
+    }
+
+    const state = {
+        onError: () => {
+        },
+        validate: () => true,
+        defaultValue: null,
+        updateType: "replaceIn",
+        ...defaultSerializers,
+        ...options,
+        ...(value || {}),
+        ...listOptions
+    } satisfies RequiredOptions<unknown>
+
+    return new InternalBuilder(state);
 }
 
 export const p = new Proxy({} as OptionsBuilder, {
     get(_target, prop: string) {
         return (value?: UrlOptions) => {
-            const key = prop as keyof OptionsBuilder ;
-            const options = typeBasedOptions[key] || {};
-
-            const listOptions= key === "list" ? createListSerializer(value as ListOptions<unknown>) : {}
-            const defaultSerializers = {
-                encode: defaultEncoder,
-                decode: defaultDecoder,
-            }
-
-            const state = {
-                onError: () => {},
-                validate: () => true,
-                type: "value" as const,
-                defaultValue: null,
-                updateType: "replaceIn",
-                prefix: "",
-                ...defaultSerializers,
-                ...options,
-                ...( value || {}),
-                ...listOptions
-            } satisfies RequiredOptions<unknown>
-
-            return new InternalBuilder(state);
+            const key = prop as keyof OptionsBuilder;
+            return createInternalBuilder(key, value);
         };
     },
 });
 
+const defaultSetTransformer: TransformParams<unknown, Dispatch<Setter<unknown>>> = {
+    set: ({set: setValue}) => {
+        return setValue;
+    }
+}
+
+const getWithPrefix = (prefix: string | undefined, prop: string) => {
+    return prefix ? `${prefix}-${prop}` : prop;
+}
+
+const buildSingle = <T extends AllTypedOptions>({builder, params, prop, globalOptions}:
+                                                {
+                                                    builder: InternalBuilder,
+                                                    params: ParamsCore,
+                                                    prop: string,
+                                                    globalOptions?: UrlOptions
+                                                }) => {
+    const options = builder.state;
+    const transformParams = builder.transformParams;
+    const typedOptions = options as RequiredOptions<T>;
+    const {set} = transformParams || defaultSetTransformer;
+
+    return {
+        useSet: (options?: FinalOptions<T>) => {
+            const memoedOptions = useMemoOptions(typedOptions, globalOptions, options);
+            const paramName = getWithPrefix(memoedOptions.prefix, prop);
+            const setter = params.useParamSet(paramName, memoedOptions) as Dispatch<Setter<T>>
+            return useMemo(() => {
+                return set({
+                    set: setter as Dispatch<unknown>,
+                })
+            }, [setter])
+        },
+        use: (options?: FinalOptions<T>) => {
+            const memoedOptions = useMemoOptions(typedOptions, globalOptions, options);
+            const paramName = getWithPrefix(memoedOptions.prefix, prop);
+            const res = params.useParamGet(paramName, memoedOptions);
+            const setter = params.useParamSet(paramName, memoedOptions);
+            const setterTransformed = useMemo(() => {
+                return set({
+                    set: setter as Dispatch<unknown>,
+                })
+            }, [setter])
+
+            return [
+                res,
+                setterTransformed,
+            ]
+        }
+    }
+}
+
+let params: ReturnType<typeof createParams> | null = null;
+
+const init = once(() => {
+    params = createParams();
+});
 
 export function create<T extends Schema>(schema: T, globalOptions?: UrlOptions): Params<T> {
-    const params = createParams();
-    const wrappers = createWrappers(params);
+    init();
     let internalGlobalOptions = globalOptions;
 
     const proxy = new Proxy({} as Params<T>, {
@@ -148,7 +213,7 @@ export function create<T extends Schema>(schema: T, globalOptions?: UrlOptions):
             }
             if (prop === 'batch') {
                 return (fn: () => void) => {
-                    const {paramsStore, api} = params.getInternals();
+                    const {paramsStore, api} = params!.getInternals();
                     paramsStore.batch(() => {
                         api.batch(fn);
                     });
@@ -156,46 +221,24 @@ export function create<T extends Schema>(schema: T, globalOptions?: UrlOptions):
             }
             const schemaField = camelCaseToKebab(prop);
             const builder = schema[schemaField] as unknown as InternalBuilder;
-            const options = builder.state;
 
-            const simpleMap = <T,>() => {
-                const typedOptions = options as RequiredOptions<T>;
-                return {
-                    useSet: (options?: FinalOptions<T>) => {
-                        const memoedOptions = useMemoOptions(typedOptions, internalGlobalOptions, options);
-                        return params.useParamSet(prop, memoedOptions);
-                    },
-                    use: (options?: FinalOptions<T>) => {
-                        const memoedOptions = useMemoOptions(typedOptions, internalGlobalOptions, options);
-                        return params.useParam(prop, memoedOptions);
-                    },
-                }
-            }
-
-            if (options.type === "value") {
-                return simpleMap<unknown>();
-            } else if (options.type === "dialog") {
-                const typedOptionsWithDialogDefault = {
-                    ...options,
-                    defaultValue: {
-                        isOpen: false,
-                        state: getValue(options.defaultValue),
-                    }
-                } as RequiredOptions<DialogValue<T>>;
-                return {
-                    //todo: better handle default options
-                    useSet: (options?: FinalOptions<DialogValue<T>>) => {
-                        const memoedOptions = useMemoOptions(typedOptionsWithDialogDefault, internalGlobalOptions, options);
-                        return wrappers.useDialogParamSet(prop, memoedOptions);
-                    },
-                    use: (options?: FinalOptions<DialogValue<T>>) => {
-                        const memoedOptions = useMemoOptions(typedOptionsWithDialogDefault, internalGlobalOptions, options);
-                        return wrappers.useDialogParam(prop, memoedOptions);
-                    }
-                }
-            }
-            throw new Error("Invalid type");
+            return buildSingle({
+                builder,
+                params: params!,
+                prop,
+                globalOptions: internalGlobalOptions,
+            })
         }
     });
     return proxy;
+}
+
+export function createSingle<T extends AllTypedOptions>(prop: string, definition: T): InferValue<T> {
+    init();
+    const builder = definition as unknown as InternalBuilder;
+    return buildSingle({
+        builder,
+        params: params!,
+        prop,
+    }) as unknown as InferValue<T>
 }

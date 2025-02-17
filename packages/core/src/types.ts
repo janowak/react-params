@@ -26,96 +26,64 @@ export type ValueOptions<T> = {
 
 export type UrlOptions = {
     updateType?: UrlUpdateType,
+}
+
+export type Dispatch<A> = (value: A) => void;
+export type Setter<S> = S | ((prevState: S) => S);
+
+export type PrefixOptions = {
     prefix?: string,
 }
 
-export type DialogValue<T> = {
-    isOpen: boolean,
-    state: T,
-}
-
-type Dispatch<A> = (value: A) => void;
-export type Setter<S> = S | ((prevState: S) => S);
-
-export type FinalOptions<T> = UrlOptions & Validator<T> & ValueOptions<T>
-export type Options<T> = SerializerOptions<T> & FinalOptions<T> & {type: "value" | "dialog"}
+export type FinalOptions<T> = UrlOptions & Validator<T> & ValueOptions<T> & PrefixOptions
+export type Options<T> = SerializerOptions<T> & FinalOptions<T>
 export type OptionsWithDefault<T> = Require<Options<T>, "defaultValue">
-export type RequiredOptions<T> = Required<Options<T>>
+export type RequiredOptions<T> = Require<OptionsWithDefault<T>, "encode" | "decode">
 
 type Param<T> = {
     useSet: (options?: FinalOptions<T>) => Dispatch<Setter<T>>,
     use: (options?: FinalOptions<T>) => [T, Dispatch<Setter<T>>],
 }
 
-type DialogSet<T> = {
-    close: () => void,
-    open: (state: Setter<T>) => void,
-    set: (state: Setter<T>) => void,
+type TransformedParam<T, SetRes> = {
+    useSet: (options?: FinalOptions<T>) => SetRes,
+    use: (options?: FinalOptions<T>) => [T, SetRes],
 }
-
-type PageSet = {
-    next: () => void,
-    prev: () => void,
-    setPage: (page: number) => void,
-    setSize: (size: number) => void,
-    canNext: boolean,
-    canPrev: boolean,
-}
-
-type PageGet = {
-
-}
-
-type DialogGet<T> = {
-    isOpen: boolean,
-    state: T,
-}
-
-type DialogParam<T> = {
-    useSet: (options?: FinalOptions<T>) => DialogSet<T>,
-    use:(options?: FinalOptions<T>) => DialogGet<T> & DialogSet<T>,
-}
-
-type PageParam = {
-    useSet: (options?: FinalOptions<Page>) => PageSet,
-    use:(options?: FinalOptions<Page>) => PageGet & PageSet,
-}
-
-type Shape = "value" | "dialog" | "page"
 
 export type Validator<T> = {
     validate?: (value:T) => boolean,
     onError?: (serializedValue: string | undefined, value?: T) => T | undefined,
 }
 
-
-type BaseBuilder<T, Type extends Shape> = {
-    withDefault: (value: NonNullable<T>) => Builder<NonNullable<T>, Type>
-    withLazyDefault: () => Builder<NonNullable<T>, Type>
-    validate: (validator: Validator<T>) => Builder<T, Type>
-    withSerializer: (coder: Serializer<T>) => Builder<T, Type>
+export type SetTransformerParams<T> = {
+    set: Dispatch<Setter<T>>,
 }
 
-type Builder<T, Type extends Shape> = BaseBuilder<T, Type> & {
-    asDialog: () => Builder<T, "dialog">
+type TransformInfo<SetRes> = {
+    set: SetRes
 }
 
-type ListBuilder<T, Type extends Shape> = Omit<Builder<T, Type>, "withSerializer">
+export type TransformParams<T, SetRes> = {
+    set: (params: SetTransformerParams<T>) => SetRes
+}
+
+type Builder<T, TInfo extends TransformInfo<any> | undefined = undefined> = {
+    withDefault: (value: NonNullable<T>) => Builder<NonNullable<T>, TInfo>
+    validate: (validator: Validator<T>) => Builder<T, TInfo>
+    withSerializer: (coder: Serializer<T>) => Builder<T, TInfo>
+    transform: <SetRes>(params: TransformParams<T, SetRes>) => Builder<T, TransformInfo<SetRes>>
+}
+
+type ListBuilder<T, TInfo extends TransformInfo<any> | undefined = undefined> = Omit<Builder<T, TInfo>, "withSerializer">
+
+type ListItemBuilder<T> = Omit<Builder<T>, "transform">
 
 export type ListOptions<T> = {
     separator?: string,
-    item: BaseBuilder<T, "value">
+    item: ListItemBuilder<T>
 } & UrlOptions
 
-export type PageOptions = {
-} & UrlOptions
-
-type Page = {
-    page: number,
-    size: number,
-}
-
-type ParamBuilder<T> = (options?: UrlOptions) => Builder<T | null, "value">
+type ParamBuilder<T> = (options?: UrlOptions) => Builder<T | null>
 
 export type OptionsBuilder = {
     string: ParamBuilder<string>,
@@ -123,31 +91,29 @@ export type OptionsBuilder = {
     boolean: ParamBuilder<boolean>,
     datetime: ParamBuilder<Date>,
     date: ParamBuilder<Date>,
-    object: <T extends object>(options?: UrlOptions) => Builder<T | null, "value">,
-    list: <T>(options?: ListOptions<T>) => ListBuilder<NonNullable<T>[] | null, "value">,
-    page: (options?: PageOptions) => Builder<Page, "page">,
+    object: <T extends object>(options?: UrlOptions) => Builder<T | null>,
+    list: <T>(options?: ListOptions<T>) => ListBuilder<NonNullable<T>[] | null>,
 }
 
-type AllTypedOptions =  Builder<any, any> | ListBuilder<any, any>
+export type AllTypedOptions = Builder<any, any> | ListBuilder<any, any>
 
-// Helper type to convert kebab-case keys to camelCase
 type KebabToCamel<S extends string> = S extends `${infer P1}-${infer P2}${infer P3}`
     ? `${P1}${Uppercase<P2>}${KebabToCamel<P3>}`
     : S;
 
 export type Schema = Record<string, AllTypedOptions>
 
-type InferShape<T, Shape> = Shape extends "value"? Param<T> : Shape extends "page"? PageParam : DialogParam<T>
+type InferShape<T, Info> = Info extends undefined ? Param<T> : Info extends TransformInfo<infer SetRes> ? TransformedParam<T, SetRes> : never
 
-type InferValue<T> =
-    T extends Builder<infer R, infer Type>
-        ? InferShape<R, Type>
-            : T extends ListBuilder<infer R, infer Type>
-                ? InferShape<R, Type>
+export type InferValue<T> =
+    T extends Builder<infer R, infer TInfo>
+        ? InferShape<R, TInfo>
+            : T extends ListBuilder<infer R, infer TInfo>
+                ? InferShape<R, TInfo>
                     : never;
 
 type InferBuildValue<T extends AllTypedOptions> =
-    T extends Builder<infer R, any> ? R :
+    T extends Builder<infer R> ? R :
         never;
 
 type KeysToCamelCase<T> = {

@@ -6,13 +6,14 @@ import {ParamStore} from "./store";
 import {getRenderingType, getValue, isClient, isParamsTransition, paramsTransitioning, useSmartValue} from "./utils";
 import {decodeParam, encodeParam} from "./encoding";
 
-import type {API, OptionsWithDefault, Setter, Value} from "./types";
+import {API, OptionsWithDefault, Setter, Value} from "./types";
 import {useContextApi} from "./use-api";
 import {BatchingApi, defaultApi, withBatch} from "./api";
 
 export const createParams = () => {
     let paramsStore: ParamStore = null!;
     let api: BatchingApi = null!;
+
     const getLatestParams = (api: API) => {
         const params = new URLSearchParams(api.getSearch());
         const paramsMap: Record<string, string> = {};
@@ -59,6 +60,7 @@ export const createParams = () => {
         options: OptionsWithDefault<T>,
     ) => {
         const contextApi = useContextApi();
+
         if (isClient) {
             init(contextApi, isClient);
         }
@@ -78,7 +80,10 @@ export const createParams = () => {
         options: OptionsWithDefault<T>,
     ) => {
         const contextApi = useContextApi();
-        init(contextApi, isClient);
+
+        if (isClient) {
+            init(contextApi, isClient);
+        }
 
         const {defaultValue} = options;
         const smartDefaultValue = useSmartValue(defaultValue);

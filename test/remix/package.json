@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@react-params/remix": "^0.0.5",
+    "@react-params/remix": "latest",
     "@remix-run/dev": "^2.12.1",
     "@remix-run/node": "^2.12.1",
     "@remix-run/react": "^2.12.1",

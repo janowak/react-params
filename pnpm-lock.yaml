@@ -83,7 +83,7 @@ importers:
         version: 2.14.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
       next:
         specifier: ^14.2.13
-        version: 14.2.17(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 14.2.17(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -235,7 +235,7 @@ importers:
   test/react-router:
     dependencies:
       '@react-params/react-router':
-        specifier: ^0.0.3
+        specifier: latest
         version: 0.0.3(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.28.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.1
@@ -284,8 +284,8 @@ importers:
   test/remix:
     dependencies:
       '@react-params/remix':
-        specifier: workspace:*
-        version: link:../../packages/remix
+        specifier: latest
+        version: 0.0.6(@remix-run/react@2.14.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.28.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       '@remix-run/dev':
         specifier: ^2.12.1
         version: 2.14.0(@remix-run/react@2.14.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3))(@remix-run/serve@2.14.0(typescript@5.6.3))(@types/node@22.9.0)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0))
@@ -350,9 +350,9 @@ importers:
 
   test/test-utils:
     dependencies:
-      '@react-params/react-router':
-        specifier: ^0.0.3
-        version: 0.0.3(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.28.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+      '@react-params/core':
+        specifier: workspace:*
+        version: link:../../packages/core
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -400,8 +400,54 @@ importers:
   test/vanilla:
     dependencies:
       '@react-params/core':
-        specifier: ^0.0.3
+        specifier: latest
         version: 0.0.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@eslint/js':
+        specifier: ^9.9.0
+        version: 9.14.0
+      '@types/react':
+        specifier: ^18.3.3
+        version: 18.3.12
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.1
+      '@vitejs/plugin-react':
+        specifier: ^4.3.1
+        version: 4.3.3(vite@5.4.11(@types/node@22.9.0))
+      eslint:
+        specifier: ^9.9.0
+        version: 9.14.0
+      eslint-plugin-react-hooks:
+        specifier: ^5.1.0-rc.0
+        version: 5.1.0-rc-fb9a90fa48-20240614(eslint@9.14.0)
+      eslint-plugin-react-refresh:
+        specifier: ^0.4.9
+        version: 0.4.14(eslint@9.14.0)
+      globals:
+        specifier: ^15.9.0
+        version: 15.12.0
+      typescript:
+        specifier: ^5.5.3
+        version: 5.6.3
+      typescript-eslint:
+        specifier: ^8.0.1
+        version: 8.14.0(eslint@9.14.0)(typescript@5.6.3)
+      vite:
+        specifier: ^5.4.1
+        version: 5.4.11(@types/node@22.9.0)
+
+  test/vanilla-monorepo:
+    dependencies:
+      '@react-params/core':
+        specifier: workspace:*
+        version: link:../../packages/core
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -1227,6 +1273,13 @@ packages:
       react: ^17.0.0 || ^18.0.0
       react-dom: ^17.0.0 || ^18.0.0
       react-router-dom: ^6.0.0
+
+  '@react-params/remix@0.0.6':
+    resolution: {integrity: sha512-nSR2Qqp0R95fBswPsYL/JgN77fpRxeZpSDRuKWEVaEg6wwkFiG2kRqoxcASJ53BmcKW7W69sfqf3ZjktgpKEKw==}
+    peerDependencies:
+      '@remix-run/react': ^2.12.1
+      react: ^17.0.0 || ^18.0.0
+      react-dom: ^17.0.0 || ^18.0.0
 
   '@remix-run/dev@2.14.0':
     resolution: {integrity: sha512-WMun4fy0ANh92WecufUNb3IV/R02uyfBslM7g7nCO1/lzDII+XmfEkZY5CWPaLmnkoAc1DR2G60+eTHRo480Ug==}
@@ -4985,6 +5038,17 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       react-router-dom: 6.28.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
+  '@react-params/remix@0.0.6(@remix-run/react@2.14.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.28.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@react-params/core': 0.0.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@react-params/react-router': 0.0.3(react-dom@18.3.1(react@18.3.1))(react-router-dom@6.28.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+      '@remix-run/react': 2.14.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-use-event-hook: 0.9.6(react@18.3.1)
+    transitivePeerDependencies:
+      - react-router-dom
+
   '@remix-run/dev@2.14.0(@remix-run/react@2.14.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3))(@remix-run/serve@2.14.0(typescript@5.6.3))(@types/node@22.9.0)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.0))':
     dependencies:
       '@babel/core': 7.26.0
@@ -7423,7 +7487,7 @@ snapshots:
 
   negotiator@0.6.4: {}
 
-  next@14.2.17(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  next@14.2.17(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@next/env': 14.2.17
       '@swc/helpers': 0.5.5
@@ -7433,7 +7497,7 @@ snapshots:
       postcss: 8.4.31
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      styled-jsx: 5.1.1(react@18.3.1)
+      styled-jsx: 5.1.1(@babel/core@7.26.0)(react@18.3.1)
     optionalDependencies:
       '@next/swc-darwin-arm64': 14.2.17
       '@next/swc-darwin-x64': 14.2.17
@@ -8144,10 +8208,12 @@ snapshots:
     dependencies:
       inline-style-parser: 0.1.1
 
-  styled-jsx@5.1.1(react@18.3.1):
+  styled-jsx@5.1.1(@babel/core@7.26.0)(react@18.3.1):
     dependencies:
       client-only: 0.0.1
       react: 18.3.1
+    optionalDependencies:
+      '@babel/core': 7.26.0
 
   supports-color@7.2.0:
     dependencies:

@@ -2,16 +2,11 @@ default:
   just --list
 
 build PROJ:
-    pnpm --filter {{PROJ}} build
-
-build-remix:
-    just build @react-params/remix
-
-build-core:
-    just build @react-params/core
+    pnpm --filter @react-params/{{PROJ}} build
 
 publish PROJ:
-    pnpm publish --filter {{PROJ}} --access public
+    just build {{PROJ}}
+    pnpm publish --filter @react-params/{{PROJ}} --access public  --no-git-checks
 
-publish-remix:
-    just publish @react-params/remix
+dev PROJ:
+    pnpm --filter @react-params/test-{{PROJ}} dev
