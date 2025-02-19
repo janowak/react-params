@@ -216,7 +216,7 @@ export function create<T extends Schema>(schema: T, globalOptions?: UrlOptions):
                     const {paramsStore, api} = params!.getInternals();
                     paramsStore.batch(() => {
                         api.batch(fn);
-                    });
+                    })
                 }
             }
             const schemaField = camelCaseToKebab(prop);

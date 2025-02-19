@@ -1,12 +1,9 @@
-import {renderExample} from '../../../test-utils/src/example.tsx'
-import {create, p} from "@react-params/remix";
+import Examples from '@react-params/test-utils/src/examples.tsx'
 
-const Example = renderExample(create, p);
-
-const Component = () => {
+function Component() {
     return (
-        <Example/>
+        <Examples/>
     )
 }
 
-export default Component;
+export default Component

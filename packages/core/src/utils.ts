@@ -25,7 +25,7 @@ export const isParamsTransition = (state: unknown) => state != null && typeof st
 
 export const useSmartValue = <T,>(value: Value<T>) => {
     const internalValue = getValue(value);
-    const ref = useRef<T>();
+    const ref = useRef<T>(undefined);
     if (ref.current === undefined) {
         ref.current = internalValue;
     }

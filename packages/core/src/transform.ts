@@ -17,7 +17,7 @@ type OpenLike = {
     isOpen: boolean
 }
 
-type DialogValue<T> = {
+export type DialogValue<T> = {
     state?: T,
 } & OpenLike
 
@@ -106,28 +106,5 @@ export const pageTransform = (): TransformParams<PageLike, {
         }
     }
 }
-
-// type DialogWithState = {
-//     isOpen: boolean,
-//     state?: {
-//         name: string
-//     }
-// }
-// const dialogTransformer = dialogTransform<{ name: string }>()
-//
-// const param = create({
-//     "name": p.object<DialogWithState>({updateType: "replaceIn"}).withDefault({
-//         isOpen: false,
-//     })
-//         .transform(dialogTransformer),
-// })
-//
-// const [res, resSet] = param.name.use()
-//
-// resSet.setState({
-//     name: "new name"
-// })
-
-
 
 

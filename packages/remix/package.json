@@ -1,13 +1,13 @@
 {
   "name": "@react-params/remix",
-  "version": "0.0.8",
+  "version": "0.0.15",
   "description": "",
   "author": "Jakub Nowak <kubanowak@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/janowak/react-params.git",
-    "directory": "packages/react-router"
+    "directory": "packages/remix"
   },
   "homepage": "https://github.com/janowak/react-params",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@react-params/core",
-  "version": "0.0.6",
+  "version": "0.0.14",
   "description": "",
   "scripts": {
     "build": "tsc -b && vite build"
@@ -28,7 +28,7 @@
     "react-dom": "^18.3.1"
   },
   "dependencies": {
-    "@tanstack/react-store": "^0.5.5",
+    "@tanstack/react-store": "0.5.5",
     "lodash-es": "^4.17.21"
   },
   "peerDependencies": {

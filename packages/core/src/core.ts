@@ -25,13 +25,13 @@ export const createParams = () => {
 
     const init = once((contextApi: API, isClient: boolean) => {
         api = withBatch(contextApi ?? defaultApi(getRenderingType()));
-        api.registerListener((state: unknown) => {
-            if (isParamsTransition(state)) {
-                return;
-            }
-            paramsStore.setState(() => getLatestParams(api))
-        });
         if (isClient) {
+            api.registerListener((state: unknown) => {
+                if (isParamsTransition(state)) {
+                    return;
+                }
+                paramsStore.setState(() => getLatestParams(api))
+            });
             paramsStore = new Store<Record<string, string>>(getLatestParams(api));
         }
     });
@@ -61,15 +61,13 @@ export const createParams = () => {
     ) => {
         const contextApi = useContextApi();
 
-        if (isClient) {
-            init(contextApi, isClient);
-        }
+        init(contextApi, isClient);
 
         const {defaultValue} = options;
         const smartDefaultValue = useSmartValue(defaultValue);
 
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const value = isClient ? useStore(paramsStore, (s) => s[paramName]) : getLatestParams(contextApi)[paramName];
+        const value = isClient ? useStore(paramsStore, (s) => s[paramName]) : getLatestParams(api)[paramName];
         const decodedValue = useMemo(() => decodeWithDefault(value, smartDefaultValue, options), [value, smartDefaultValue, options]);
 
         return useSmartValue(decodedValue) as T
@@ -81,9 +79,7 @@ export const createParams = () => {
     ) => {
         const contextApi = useContextApi();
 
-        if (isClient) {
-            init(contextApi, isClient);
-        }
+        init(contextApi, isClient);
 
         const {defaultValue} = options;
         const smartDefaultValue = useSmartValue(defaultValue);
