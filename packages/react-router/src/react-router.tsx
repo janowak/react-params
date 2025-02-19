@@ -13,8 +13,10 @@ export const ReactRouterApiProvider = ({children}: {children: ReactNode}) => {
                     return location.search
                 } else if (router) {
                     return  router.state.location.search
+                } else {
+                    console.error("[react-params] can't use react router context as it is not defined")
+                    return "";
                 }
-                throw new Error("No router or location");
             },
             replaceState: (params: string, state?: unknown) => {
                 router?.navigate(params, {

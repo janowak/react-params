@@ -1,6 +1,6 @@
 import {useCallback, useMemo} from "react";
 import {Store, useStore} from "@tanstack/react-store";
-import {isEqual, once} from "lodash-es";
+import {isEqual} from "lodash-es";
 
 import {ParamStore} from "./store";
 import {getRenderingType, getValue, isClient, isParamsTransition, paramsTransitioning, useSmartValue} from "./utils";
@@ -9,6 +9,8 @@ import {decodeParam, encodeParam} from "./encoding";
 import {API, OptionsWithDefault, Setter, Value} from "./types";
 import {useContextApi} from "./use-api";
 import {BatchingApi, defaultApi, withBatch} from "./api";
+
+let isInitialized = false;
 
 export const createParams = () => {
     let paramsStore: ParamStore = null!;
@@ -23,7 +25,11 @@ export const createParams = () => {
         return paramsMap;
     }
 
-    const init = once((contextApi: API, isClient: boolean) => {
+    const init = (contextApi: API, isClient: boolean) => {
+        if (isClient && isInitialized) {
+            return;
+        }
+        isInitialized = true;
         api = withBatch(contextApi ?? defaultApi(getRenderingType()));
         if (isClient) {
             api.registerListener((state: unknown) => {
@@ -34,7 +40,7 @@ export const createParams = () => {
             });
             paramsStore = new Store<Record<string, string>>(getLatestParams(api));
         }
-    });
+    };
 
     const decodeWithDefault = <T, >(value: string | undefined, defaultValue: Value<T>, options: OptionsWithDefault<T>): T => {
         const internalDefaultValue = getValue(defaultValue);

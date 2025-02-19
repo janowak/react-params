@@ -8,7 +8,8 @@ export default defineConfig({
     resolve: {
         alias: {
             '@react-params/core': path.resolve(__dirname, '../../packages/core/src/'),
-            '@react-params/remix': path.resolve(__dirname, '../../packages/remix/src')
+            '@react-params/remix': path.resolve(__dirname, '../../packages/remix/src'),
+            '@react-params/react-router': path.resolve(__dirname, '../../packages/react-router/src')
         }
     }
 });

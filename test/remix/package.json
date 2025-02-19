@@ -10,8 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@react-params/core": "^0.0.12",
-    "@react-params/remix": "^0.0.14",
+    "@react-params/core": "^0.0.15",
+    "@react-params/remix": "^0.0.16",
     "@react-params/test-utils": "workspace:*",
     "@remix-run/dev": "^2.12.1",
     "@remix-run/node": "^2.12.1",
