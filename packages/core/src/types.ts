@@ -51,7 +51,7 @@ type TransformedParam<T, SetRes> = {
 }
 
 export type Validator<T> = {
-    validate?: (value:T) => boolean,
+    validate?: (value: T) => boolean,
     onError?: (serializedValue: string | undefined, value?: T) => T | undefined,
 }
 
@@ -108,9 +108,9 @@ type InferShape<T, Info> = Info extends undefined ? Param<T> : Info extends Tran
 export type InferValue<T> =
     T extends Builder<infer R, infer TInfo>
         ? InferShape<R, TInfo>
-            : T extends ListBuilder<infer R, infer TInfo>
-                ? InferShape<R, TInfo>
-                    : never;
+        : T extends ListBuilder<infer R, infer TInfo>
+            ? InferShape<R, TInfo>
+            : never;
 
 type InferBuildValue<T extends AllTypedOptions> =
     T extends Builder<infer R> ? R :

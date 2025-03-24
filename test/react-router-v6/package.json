@@ -1,25 +1,23 @@
 {
-  "name": "@react-params/test-react-router",
+  "name": "@react-params/test-react-router-v6",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "build": "tsc -b && vite build"
   },
   "dependencies": {
-    "@react-params/core": "latest",
-    "@react-params/react-router": "latest",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.2",
-    "@react-params/test-utils": "workspace:*"
+    "@react-params/core": "^0.0.18",
+    "@react-params/react-router-dom": "latest",
+    "@react-params/test-utils": "workspace:*",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
-    "@types/react": "^18.3.3",
+    "@types/react": "^19.0.10",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
     "eslint": "^9.9.0",

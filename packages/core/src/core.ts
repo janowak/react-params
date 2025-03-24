@@ -3,12 +3,12 @@ import {Store, useStore} from "@tanstack/react-store";
 import {isEqual} from "lodash-es";
 
 import {ParamStore} from "./store";
-import {getRenderingType, getValue, isClient, isParamsTransition, paramsTransitioning, useSmartValue} from "./utils";
+import {getValue, isClient, isParamsTransition, paramsTransitioning, useSmartValue} from "./utils";
 import {decodeParam, encodeParam} from "./encoding";
 
 import {API, OptionsWithDefault, Setter, Value} from "./types";
 import {useContextApi} from "./use-api";
-import {BatchingApi, defaultApi, withBatch} from "./api";
+import {BatchingApi, defaultApi, dummyApi, withBatch} from "./api";
 
 let isInitialized = false;
 
@@ -30,7 +30,7 @@ export const createParams = () => {
             return;
         }
         isInitialized = true;
-        api = withBatch(contextApi ?? defaultApi(getRenderingType()));
+        api = withBatch(contextApi ?? (isClient ? defaultApi() : dummyApi));
         if (isClient) {
             api.registerListener((state: unknown) => {
                 if (isParamsTransition(state)) {
@@ -66,7 +66,6 @@ export const createParams = () => {
         options: OptionsWithDefault<T>,
     ) => {
         const contextApi = useContextApi();
-
         init(contextApi, isClient);
 
         const {defaultValue} = options;
@@ -124,7 +123,6 @@ export const createParams = () => {
 
             const newHref = `?${searchParams.toString()}`
             const internalState = {[paramsTransitioning]: true, ...state};
-
             if (isReplace) {
                 api.replaceState(newHref, internalState);
             } else {

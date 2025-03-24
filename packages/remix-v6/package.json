@@ -1,19 +1,21 @@
 {
-  "name": "@react-params/remix",
-  "version": "0.0.16",
+  "name": "@react-params/remix-v6",
+  "version": "0.0.21",
   "description": "",
   "author": "Jakub Nowak <kubanowak@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/janowak/react-params.git",
-    "directory": "packages/remix"
+    "directory": "packages/remix-v6"
   },
   "homepage": "https://github.com/janowak/react-params",
   "keywords": [
     "react",
     "params",
     "react-router",
+    "react-router-dom",
+    "remix",
     "typescript"
   ],
   "scripts": {
@@ -21,18 +23,18 @@
   },
   "peerDependencies": {
     "@remix-run/react": "^2.12.1",
-    "react": "^17.0.0 || ^18.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0"
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "dependencies": {
     "@react-params/core": "workspace:*",
-    "@react-params/react-router": "workspace:*",
+    "@react-params/react-router-dom": "workspace:*",
     "react-use-event-hook": "^0.9.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
     "@tanstack/config": "^0.13.3",
-    "@types/react": "^18.3.3",
+    "@types/react": "^19.0.10",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
     "eslint": "^9.9.0",

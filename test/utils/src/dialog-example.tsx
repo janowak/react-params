@@ -13,9 +13,9 @@ type DialogState = {
 }
 
 const pageParams = create({
-    "page": p.object<DialogState>({updateType: "replaceIn"}).withDefault({
-        isOpen: false,
-    }).transform(dialogTransform<StateShape>()),
+    "page": p.object<DialogState>()
+        .withDefault({isOpen: false})
+        .transform(dialogTransform<StateShape>()),
 })
 
 const Example = () => {

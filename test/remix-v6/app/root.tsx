@@ -1,11 +1,6 @@
 import {Links, Meta, Outlet, Scripts,} from "@remix-run/react";
 
-import {LinksFunction} from "@remix-run/node";
-
-import {RemixApiProvider} from "@react-params/remix";
-
-export const links: LinksFunction = () => [
-]
+import {RemixApiProvider} from "@react-params/remix-v6";
 
 export default function App() {
     return (

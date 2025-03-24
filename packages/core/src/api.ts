@@ -1,5 +1,5 @@
-import  {createContext} from "react";
-import {API, RenderingType} from "./types";
+import {createContext} from "react";
+import {API} from "./types";
 
 export const ApiContext = createContext<API>(null!);
 
@@ -20,7 +20,7 @@ type ActionDetails = {
     type: "replaceState" | "pushState";
 }
 
-export const withBatch = (api: API): BatchingApi  => {
+export const withBatch = (api: API): BatchingApi => {
     let isBatching = false;
     let lastActionDetails: ActionDetails | null = null
     return {
@@ -64,23 +64,20 @@ export const withBatch = (api: API): BatchingApi  => {
     }
 }
 
-export const defaultApi = (type: RenderingType) => {
-    if (type === "server") {
-        return dummyApi;
-    }
+export const defaultApi = () => {
     return {
         getSearch: () => window.location.search,
         replaceState: (params: string, state?: unknown) => window.history.replaceState(state, "", params),
         pushState: (params: string, state?: unknown) => window.history.pushState(state, "", params),
         registerListener: (listener: (state?: unknown) => void) => {
             const originalPushState = window.history.pushState;
-            window.history.pushState = (state, ...args)=> {
+            window.history.pushState = (state, ...args) => {
                 originalPushState.apply(window.history, [state, ...args]);
                 listener(state);
             }
 
             const orginalReplaceState = window.history.replaceState;
-            window.history.replaceState = (state,...args)=> {
+            window.history.replaceState = (state, ...args) => {
                 orginalReplaceState.apply(window.history, [state, ...args]);
                 listener(state);
             }

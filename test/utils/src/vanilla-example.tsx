@@ -3,8 +3,8 @@ import './example.css'
 import {create, p} from "@react-params/core";
 
 const params = create({
-    "selected-tab": p.string({updateType: "replaceIn"}).withDefault("Values"),
-    "name": p.string({updateType: "replaceIn"}).withDefault("kuba"),
+    "selected-tab": p.string().withDefault("Values"),
+    "name": p.string().withDefault("kuba"),
     "details": p.object<{ address: string | null }>().withDefault({address: "address"}),
     "favorite-number": p.number().withDefault(11),
     "favorite-colors": p.list({

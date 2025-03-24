@@ -28,6 +28,8 @@ import {
 } from "./encoding";
 import {once} from "lodash-es";
 import {useMemo} from "react";
+import {batch} from "@tanstack/react-store";
+
 
 type OptionsConfig = {
     [key in keyof OptionsBuilder]?: unknown
@@ -170,8 +172,8 @@ const buildSingle = <T extends AllTypedOptions>({builder, params, prop, globalOp
             return [
                 res,
                 setterTransformed,
-            ]
-        }
+                ]
+            }
     }
 }
 
@@ -213,8 +215,8 @@ export function create<T extends Schema>(schema: T, globalOptions?: UrlOptions):
             }
             if (prop === 'batch') {
                 return (fn: () => void) => {
-                    const {paramsStore, api} = params!.getInternals();
-                    paramsStore.batch(() => {
+                    const {api} = params!.getInternals();
+                    batch(()=> {
                         api.batch(fn);
                     })
                 }

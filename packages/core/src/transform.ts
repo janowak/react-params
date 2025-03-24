@@ -21,12 +21,13 @@ export type DialogValue<T> = {
     state?: T,
 } & OpenLike
 
-
-export const dialogTransform = <R, >(): TransformParams<DialogValue<R>, {
+type DialogMethods<R> = {
     close: () => void;
     open: (state: R | undefined) => void;
     setState: (state: R) => void;
-}> => {
+}
+
+export const dialogTransform = <R, >(): TransformParams<DialogValue<R>, DialogMethods<R>> => {
     return {
         set: ({set: setValue}) => {
             return {
@@ -61,14 +62,15 @@ type PageLike = {
     size: number,
 }
 
-export const pageTransform = (): TransformParams<PageLike, {
+export type PageMethods = {
     next: () => void;
     prev: () => void;
     setPage: (page: number) => void;
     setSize: (size: number) => void;
-}> => {
+}
+export const pageTransform = (): TransformParams<PageLike, PageMethods> => {
     return {
-        set: ({set: setValue}) => {
+        set: ({set: setValue }) => {
             return {
                 next: () => {
                     setValue((prev) => {

@@ -7,7 +7,7 @@ type PageInfo = {
 }
 
 const pageParams = create({
-    "table-state": p.object<PageInfo>({updateType: "replaceIn"}).withDefault({
+    "table-state": p.object<PageInfo>().withDefault({
         page: 1,
         size: 10
     }).transform(pageTransform()),
