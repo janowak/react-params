@@ -32,24 +32,32 @@
 import { create } from "@react-params/core";
 
 const params = create({
-  "some-string": f.string(),
-  "count": f.number().withDefault(0),
+  "user-name": f.string(),
+  "counter": f.number().withDefault(0),
   //for object we specify type
-  "some-object": f.object<{ a: string }>(),
+  "address": f.object<{ a: string }>(),
   //list of strings
-  "list": f.list({separator: ",", item: f.string()}).withDefault([]),
+  "colors": f.list({separator: ",", item: f.string()}).withDefault([]),
 });
 
 // all params are auto mapped from kebab case to camel case
 const Component = () => {
     
-  //react useState like hook result
-  const [value, setValue] = params.someString.use();
-  const [count, setCount] = params.count.use();
+  //react useState like hook result(set method supports dispatch shape)
+  const [value, setValue] = params.userName.use();
   
+  //use and useSet methods support prefixing
+  const [counter, setCounter] = params.count.use({
+    prefix: "prefix"
+  });
+
+  //you can overrride fault param settings in particular default value
+  const [colors, setColors] = params.list.use({
+    defaultValue: ["green", "red"]
+  });
+
   //useSet result in not subscribing to this param changes
-  const [object, setObject] = params.someObject.useSet();
-  const [list, setList] = params.list.use();
+  const setAddress = params.address.useSet();
   
   return <div  />
 };
@@ -70,7 +78,17 @@ Checkout those sandboxes for examples:
 * [remix-v6](https://codesandbox.io/s/react-params-remix-v6-monorepo-example-8t0q0?file=/app/routes/home.tsx)
 * [remix-v7](https://codesandbox.io/s/react-params-remix-v7-monorepo-example-8t0q0?file=/app/routes/home.tsx)
 
+### Advanced use cases
+
+* batching support
+* dynamic prefixing
+* transforming the shape of useSet method
+* custom serialization
+* links generation
+ 
 ## API
+
+> *In progress*
 
 ### `create`
 
@@ -115,10 +133,3 @@ Example:
 | replace             |Replaces the current url with the new one, but doesn't push the new url to the history|
 | push                |Pushes the new url to the history|
 
-### Advanced usa cases
-
-* batching support
-* dynamic prefixing
-* transforming the shape of useSet method
-* custom serialization
-* links generation
