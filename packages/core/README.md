@@ -27,7 +27,7 @@ There are multiple issues with native URL state management in React:
 
 **This library is solving those by:**
 
-* Using Typescript for strongly typed 
+* Using Typescript 
 * Optimizing the rendering process
     * special `useSet` method for only updating search param
     * don't re-render on every url change (compares values internally and only updates if changed)
@@ -86,8 +86,7 @@ Depending on project setup:
 * react-router (v7) ```npm install @react-params/react-router```
 
 ## Setup
-
-For vanilla react no additional setup is required.  
+For vanilla react **no additional** setup is required.  
 For framework adapters:
 
 * `@react-params/react-router-dom`
@@ -125,7 +124,7 @@ import {create} from "@react-params/core";
 //or 
 import {create} from "@react-params/react-router";
 //or
-import {create} from "@react-params/remix-v7";
+import {create} from "@react-params/react-router-dom";
 ```
 
 ### Advanced use cases
