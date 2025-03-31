@@ -8,8 +8,8 @@
     "build": "tsc -b && vite build"
   },
   "dependencies": {
-    "@react-params/core": "^0.0.24",
-    "@react-params/remix": "^0.0.26",
+    "@react-params/core": "^0.0.26",
+    "@react-params/remix": "^0.0.28",
     "@react-params/test-utils": "workspace:*",
     "@remix-run/dev": "^2.12.1",
     "@remix-run/node": "^2.12.1",
