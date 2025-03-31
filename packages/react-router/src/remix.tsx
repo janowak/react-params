@@ -4,7 +4,7 @@ import {useLocation, UNSAFE_DataRouterContext} from "react-router";
 
 type ReactRouterApiProviderProps = { children: ReactNode};
 
-const ReactRouterApiProvider = ({children}: ReactRouterApiProviderProps) => {
+const ReactParamsClientApiProvider = ({children}: ReactRouterApiProviderProps) => {
     const router = useContext(UNSAFE_DataRouterContext)?.router;
 
     const api = useMemo(() => {
@@ -47,8 +47,7 @@ const ReactRouterApiProvider = ({children}: ReactRouterApiProviderProps) => {
     return <ApiContext.Provider value={api}>{children}</ApiContext.Provider>
 }
 
-
-const RemixServerApiProvider = ({children}: { children: ReactNode }) => {
+const ReactParamsServerApiProvider = ({children}: { children: ReactNode }) => {
     const location = useLocation();
 
     const api = useMemo(() => {
@@ -63,10 +62,10 @@ const RemixServerApiProvider = ({children}: { children: ReactNode }) => {
     return <ApiContext.Provider value={api}>{children}</ApiContext.Provider>
 }
 
-export const RemixApiProvider = ({children}: { children: ReactNode }) => {
+export const ReactParamsApiProvider = ({children}: { children: ReactNode }) => {
     if (isServer) {
-        return <RemixServerApiProvider>{children}</RemixServerApiProvider>
+        return <ReactParamsServerApiProvider>{children}</ReactParamsServerApiProvider>
     } else {
-        return <ReactRouterApiProvider>{children}</ReactRouterApiProvider>
+        return <ReactParamsClientApiProvider>{children}</ReactParamsClientApiProvider>
     }
 }

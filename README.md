@@ -109,10 +109,10 @@ const App = () => {
 
 Checkout those sandboxes for fully working examples:
 
-* [vanilla react](https://codesandbox.io/s/react-params-vanilla-monorepo-example-8t0q0?file=/src/App.tsx)
-* [react-router-dom](https://codesandbox.io/s/react-params-react-router-dom-monorepo-example-8t0q0?file=/src/App.tsx)
-* [remix](https://codesandbox.io/s/react-params-remix-v6-monorepo-example-8t0q0?file=/app/routes/home.tsx)
-* [react-router](https://codesandbox.io/s/react-params-remix-v7-monorepo-example-8t0q0?file=/app/routes/home.tsx)
+* [vanilla react](https://codesandbox.io/p/sandbox/xl8z6m)
+* [react-router-dom](https://codesandbox.io/p/sandbox/qmyslg)
+* [react-router](https://codesandbox.io/p/devbox/v3mvnf)
+* [remix](/test/remix/)
 
 **Note**
 
@@ -129,10 +129,10 @@ import {create} from "@react-params/remix-v7";
 
 ### Advanced use cases
 
-* batching support
-* transforming the shape of useSet method
-* links generation
-* single param usage (without grouping)
+* batching support [link](/test/utils/src/batch-example.tsx)
+* transforming the shape of useSet method [link](/test/utils/src/dialog-example.tsx)
+* links generation [link](/test/utils/src/link-example.tsx)
+* single param usage (without grouping) [link](/test/utils/src/single-param.tsx)
 
 ## API
 

@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@react-params/core": "^0.0.18",
-    "@react-params/react-router-dom": "latest",
+    "@react-params/react-router-dom": "^0.0.19",
     "@react-params/test-utils": "workspace:*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

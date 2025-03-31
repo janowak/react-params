@@ -1,6 +1,6 @@
 import {Links, Meta, Outlet, Scripts,} from "@remix-run/react";
 
-import {RemixApiProvider} from "@react-params/remix-v6";
+import {ReactParamsApiProvider} from "@react-params/remix";
 
 export default function App() {
     return (
@@ -14,9 +14,9 @@ export default function App() {
         <body className={"min-h-screen bg-background font-sans antialiased  text-gray-800 relative"}
     style={{fontFamily: "system-ui, sans-serif", lineHeight: "1.8"}}>
 
-    <RemixApiProvider>
+    <ReactParamsApiProvider>
         <Outlet/>
-    </RemixApiProvider>
+    </ReactParamsApiProvider>
     <Scripts/>
     </body>
     </html>

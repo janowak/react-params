@@ -1,9 +1,9 @@
 import React, {ReactNode, useMemo} from "react";
 import {useLocation} from "@remix-run/react";
-import { ReactParamsApiProvider } from "@react-params/react-router-dom";
+import { ReactParamsApiProvider as ReactParamsClientApiProvider } from "@react-params/react-router-dom";
 import { isServer, dummyApi, ApiContext } from "@react-params/core";
 
-export const RemixServerApiProvider = ({children}: { children: ReactNode }) => {
+export const ReactParamsServerApiProvider = ({children}: { children: ReactNode }) => {
     const location = useLocation();
 
     const api = useMemo(() => {
@@ -18,10 +18,10 @@ export const RemixServerApiProvider = ({children}: { children: ReactNode }) => {
     return <ApiContext.Provider value={api}>{children}</ApiContext.Provider>
 }
 
-export const RemixApiProvider = ({children}: { children: ReactNode }) => {
+export const ReactParamsApiProvider = ({children}: { children: ReactNode }) => {
     if (isServer) {
-        return <RemixServerApiProvider>{children}</RemixServerApiProvider>
+        return <ReactParamsServerApiProvider>{children}</ReactParamsServerApiProvider>
     } else {
-        return <ReactParamsApiProvider>{children}</ReactParamsApiProvider>
+        return <ReactParamsClientApiProvider>{children}</ReactParamsClientApiProvider>
     }
 }
