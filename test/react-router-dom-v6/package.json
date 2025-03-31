@@ -1,5 +1,5 @@
 {
-  "name": "@react-params/test-remix-v6",
+  "name": "@react-params/test-react-router-v6",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,22 +9,16 @@
   },
   "dependencies": {
     "@react-params/core": "^0.0.18",
-    "@react-params/remix-v6": "^0.0.20",
+    "@react-params/react-router-dom": "latest",
     "@react-params/test-utils": "workspace:*",
-    "@remix-run/dev": "^2.12.1",
-    "@remix-run/node": "^2.12.1",
-    "@remix-run/react": "^2.12.1",
-    "@remix-run/serve": "^2.12.1",
-    "isbot": "^4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^6.26.2",
-    "vite-tsconfig-paths": "^5.0.1"
+    "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^18.3.0",
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.1",
     "eslint": "^9.9.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",

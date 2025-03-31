@@ -1,135 +1,213 @@
-
 <div align="center">
   <h1>@react-params</h1>
   <p>
-    Monorepo for @react-params - Opinionated search query param hooks library to manage state in React
+    Monorepo for @react-params - Opinionated url state (search params) React library
   </p>
 <hr />
 
-<a href="#installation">Installation</a> |
 <a href="#rationale">Rationale</a> |
-<a href="#usage">Usage</a> |
-<a href="#api">API</a> |
-<a href="https://pbeshai.github.io/use-query-params/">Demo</a>
+<a href="#simple-usage">Sample Usage</a> |
+<a href="#installation">Installation</a> |
+<a href="#setup">Setup</a> |
+<a href="advanced-use-cases">Advanced use cases</a> |
+<a href="#api">API</a>
 
 </div>
 <hr/>
 
 ## Rationale
 
-* Strongly typed
-* Optimized rendering
-    * `useSet` method for only updating params
-    * don't re-render on every url change (compares values internally)
-    * keeps the same reference every time urls update don't trigger direct param change
-* Easy grouping of params
-* Single interface across multiple frameworks (react-router-dom, remix, vanilla)
-* Multiple utilities (parameter prefixes, custom serialization, validation, build method for generating urls in links and more)
+There are multiple issues with native URL state management in React:
+* its not strongly typed 
+* managing state update is tricky (causing unnecessary re-renders)
+* no unified hook api for common use cases like:
+    * default values
+    * prefixing
+    * validation
 
-## Sample Usage
+**This library is solving those by:**
+
+* Using Typescript for strongly typed 
+* Optimizing the rendering process
+    * special `useSet` method for only updating search param
+    * don't re-render on every url change (compares values internally and only updates if changed)
+* Using single interface across multiple frameworks (react-router-dom, remix, vanilla)
+* Providing multiple utilities:
+  * batching support
+  * working both SSR and client side
+  * parameter prefixes options
+  * built in method for generating urls
+  * grouping of params
+  * support `replace` and `push` state methods
+  * custom serialization
+  * validation
+
+## Simple Usage
 
 ```tsx
-import { create } from "@react-params/core";
+import {create} from "@react-params/core";
 
 const params = create({
-  "user-name": f.string(),
-  "counter": f.number().withDefault(0),
-  //for object we specify type
-  "address": f.object<{ a: string }>(),
-  //list of strings
-  "colors": f.list({separator: ",", item: f.string()}).withDefault([]),
+    "user-name": f.string(),
+    //number and  types are supported
+    "counter": f.number().withDefault(0),
+    //for object we specify type
+    "address": f.object<{ a: string }>(),
+    //list of strings
+    "colors": f.list({separator: ",", item: f.string()}).withDefault([]),
 });
 
-// all params are auto mapped from kebab case to camel case
 const Component = () => {
+    // all params are auto mapped from kebab case to camel case
+    //react useState like hook result (setter supports dispatch shape: value or (prev)=> newValue)
+    const [value, setValue] = params.userName.use();
     
-  //react useState like hook result(set method supports dispatch shape)
-  const [value, setValue] = params.userName.use();
-  
-  //use and useSet methods support prefixing
-  const [counter, setCounter] = params.count.use({
-    prefix: "prefix"
-  });
+    //useSet result in not subscribing to this param changes resulting in optimized renders
+    const setAddress = params.address.useSet();
 
-  //you can overrride fault param settings in particular default value
-  const [colors, setColors] = params.list.use({
-    defaultValue: ["green", "red"]
-  });
+    //you can overrride default param settings in particular default value
+    const [colors, setColors] = params.list.use({
+        defaultValue: ["green", "red"],
+        prefix: "prefix"
+    });
 
-  //useSet result in not subscribing to this param changes
-  const setAddress = params.address.useSet();
-  
-  return <div  />
+    return <div/>
 };
 ```
 
 ## Installation
 
 Depending on project setup:
+
 * vanilla react ```npm install @react-params/core```
 * react-router-dom ```npm install @react-params/react-router-dom```
-* remix-v6 ```npm install @react-params/remix-v6```
-* remix-v7 ```npm install @react-params/remix-v7```
+* remix  ```npm install @react-params/remix```
+* react-router (v7) ```npm install @react-params/react-router```
 
+## Setup
 
-Checkout those sandboxes for examples:
+For vanilla react no additional setup is required.  
+For framework adapters:
+
+* `@react-params/react-router-dom`
+* `@react-params/remix`
+* `@react-params/react-router`
+
+You **need to** wrap your app with `<ReactParamsApiProvider/>` component provided by each of package.
+
+```tsx
+import {ReactParamsApiProvider} from "@react-params/react-router-dom";
+
+const App = () => {
+    return (
+        <ReactParamsApiProvider>
+          <div />
+        </ReactParamsApiProvider>
+    )
+}
+```
+
+Checkout those sandboxes for fully working examples:
+
 * [vanilla react](https://codesandbox.io/s/react-params-vanilla-monorepo-example-8t0q0?file=/src/App.tsx)
 * [react-router-dom](https://codesandbox.io/s/react-params-react-router-dom-monorepo-example-8t0q0?file=/src/App.tsx)
-* [remix-v6](https://codesandbox.io/s/react-params-remix-v6-monorepo-example-8t0q0?file=/app/routes/home.tsx)
-* [remix-v7](https://codesandbox.io/s/react-params-remix-v7-monorepo-example-8t0q0?file=/app/routes/home.tsx)
+* [remix](https://codesandbox.io/s/react-params-remix-v6-monorepo-example-8t0q0?file=/app/routes/home.tsx)
+* [react-router](https://codesandbox.io/s/react-params-remix-v7-monorepo-example-8t0q0?file=/app/routes/home.tsx)
+
+**Note**
+
+* You can import factory functions `create`and `p` from `@react-params/core` package or adapter package used for your
+  framework.
+
+```js
+import {create} from "@react-params/core";
+//or 
+import {create} from "@react-params/react-router";
+//or
+import {create} from "@react-params/remix-v7";
+```
 
 ### Advanced use cases
 
 * batching support
-* dynamic prefixing
 * transforming the shape of useSet method
-* custom serialization
 * links generation
- 
+* single param usage (without grouping)
+
 ## API
 
 > *In progress*
 
 ### `create`
 
-Creates a new params instance. Accepts a schema object where each key  is a param `name`.   
+Creates a new params instance. Accepts a schema object where each key is a param `name and value is a param builder.
 Returns an instance of `ReactParams`
 
 ```ts
+import {create} from "@react-params/core";
+
 const params = create({
-  "param-name": paramBuilder, //"p" function (see below)
-  ...
+    "param-name": paramBuilder, //e.g. p.string()
+    ...
 });
 ```
 
+### `ReactParams` 
+(ReturnType\<type of create>)
+
+Represents the params instance.
+For each param defnied there is camelCase substitute with two methods:
+* `use` returns a tuple of `[value, setValue]`
+* `useSet` returns a set method
+
+```tsx
+const [value, setValue] = params.paramName.use();
+const onlySetValue = params.paramName.useSet();
+```
+
+Besides this ReactParams provide:
+* `batch` method
+* `withOptions` method (add ability to provide global options)
+* `build` - utility method to build url params (to be used in links generation)
+
 ### `p`
 
-A function that creates a new param builder for a param.
-Possible types are:\
-`string`, `number`, `boolean`, `datetime`, `date`, `object`, `list`
+A function that creates a new param builder.
+Possible methods are:\
+`string`, `number`, `boolean`, `datetime`, `date`, `object`
 
-Returns a builder instance.
+Each of those method accepts options (currently `updateType` which specifies how the param should be updated in the url)
 
-#### Builder methods
+#### updateType
+| Name                    | Description                                                                            |
+|-------------------------|----------------------------------------------------------------------------------------|
+| replaceIn (**default**) | Replaces the current url with the new one                                              |
+| pushIn                  | Pushes the new url to the current url                                                  |
+| replace                 | Replaces the current url with the new one, but doesn't push the new url to the history |
+| push                    | Pushes the new url to the history                                                      |
 
-| Name        | Description                                                                                            |
-|-------------|--------------------------------------------------------------------------------------------------------|
-| updateType  | Sets the update type for the param. Possible values are <br/> `replaceIn`, `pushIn`, `replace`, `push` |
-| withDefault | Sets a default value for the param, marking it as non nullable                                         |
-| validate    | Sets a custom serializer for the param                                                                 |
-
+All builders have following methods:
+* `withDefault` - sets a default value for the param, marking it as non nullable
+* `validate` - sets a custom serializer for the param
+* `transform` - transforms the param value setter result.
+* `withSerializer` - sets a custom serializer for the param
+ 
 Example:
 
 ```ts
-  p.string({updateType: "replace" }).withDefault("")
+import {p} from "@react-params/core";
+p.string({updateType: "replace"}).withDefault("")
 ```
 
-#### updateType
+### `Options`
 
-| Name                |Description|
-|---------------------|-----------|
-| replaceIn (default) |Replaces the current url with the new one|
-| pushIn              |Pushes the new url to the current url|
-| replace             |Replaces the current url with the new one, but doesn't push the new url to the history|
-| push                |Pushes the new url to the history|
+you can specify options:
+* globally (by calling `withOptions` method on `ReactParams` instance)
+* per param (by passing those to `use` and `useSet` methods)
 
+#### options
+| Name         | Description                                                                                            |
+|--------------|--------------------------------------------------------------------------------------------------------|
+| updateType   | Sets the update type for the param.  |
+| defaultValue | Sets a default value for the param, marking it as non nullable                                         |
+| prefix       | Sets prefix to be used with param name                                                                 |
