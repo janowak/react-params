@@ -1,5 +1,5 @@
 {
-  "name": "@react-params/test-remix-v7",
+  "name": "@react-params/test-react-router",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,7 +9,7 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
-    "@react-params/react-router": "^0.0.20",
+    "@react-params/react-router": "^0.0.22",
     "@react-params/test-utils": "workspace:*",
     "@react-router/node": "^7.4.0",
     "@react-router/serve": "^7.4.0",

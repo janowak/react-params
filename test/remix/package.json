@@ -1,5 +1,5 @@
 {
-  "name": "@react-params/test-remix-v6",
+  "name": "@react-params/test-remix",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@react-params/core": "^0.0.18",
-    "@react-params/remix": "^0.0.20",
+    "@react-params/remix": "^0.0.22",
     "@react-params/test-utils": "workspace:*",
     "@remix-run/dev": "^2.12.1",
     "@remix-run/node": "^2.12.1",
