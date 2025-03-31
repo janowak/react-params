@@ -1,6 +1,6 @@
 {
   "name": "@react-params/core",
-  "version": "0.0.22",
+  "version": "0.0.24",
   "description": "",
   "scripts": {
     "build": "tsc -b && vite build"
@@ -57,6 +57,7 @@
   "sideEffects": false,
   "files": [
     "dist",
-    "src"
+    "src",
+    "README.md"
   ]
 }

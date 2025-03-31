@@ -1,6 +1,6 @@
 {
   "name": "@react-params/react-router-dom",
-  "version": "0.0.20",
+  "version": "0.0.22",
   "description": "",
   "author": "Jakub Nowak <kubanowak@gmail.com>",
   "license": "MIT",
@@ -65,6 +65,7 @@
   "sideEffects": false,
   "files": [
     "dist",
-    "src"
+    "src",
+    "README.md"
   ]
 }

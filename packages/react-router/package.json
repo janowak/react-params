@@ -1,6 +1,6 @@
 {
   "name": "@react-params/react-router",
-  "version": "0.0.24",
+  "version": "0.0.26",
   "description": "",
   "author": "Jakub Nowak <kubanowak@gmail.com>",
   "license": "MIT",
@@ -67,6 +67,7 @@
   "sideEffects": false,
   "files": [
     "dist",
-    "src"
+    "src",
+    "README.md"
   ]
 }

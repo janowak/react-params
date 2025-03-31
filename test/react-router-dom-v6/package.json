@@ -8,8 +8,8 @@
     "build": "tsc -b && vite build"
   },
   "dependencies": {
-    "@react-params/core": "^0.0.22",
-    "@react-params/react-router-dom": "^0.0.20",
+    "@react-params/core": "^0.0.24",
+    "@react-params/react-router-dom": "^0.0.22",
     "@react-params/test-utils": "workspace:*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
