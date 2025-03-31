@@ -7,10 +7,12 @@ type PageInfo = {
 }
 
 const pageParams = create({
-    "table-state": p.object<PageInfo>().withDefault({
-        page: 1,
-        size: 10
-    }).transform(pageTransform()),
+    "table-state": p.object<PageInfo>()
+        .withDefault({
+            page: 1,
+            size: 10
+        })
+        .withCustomSetter(pageTransform()),
 })
 
 const Example = () => {

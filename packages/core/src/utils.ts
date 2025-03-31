@@ -23,18 +23,16 @@ export const paramsTransitioning = "__ParamsTransitioning";
 
 export const isParamsTransition = (state: unknown) => state != null && typeof state === "object" && paramsTransitioning in state;
 
-export const useSmartValue = <T,>(value: Value<T>) => {
-    const internalValue = getValue(value);
+export const useSmartValue = <T,>(value: T) => {
     const ref = useRef<T>(undefined);
     if (ref.current === undefined) {
-        ref.current = internalValue;
+        ref.current = value;
     }
-
-    if (isEqual(ref.current, internalValue)) {
+    if (isEqual(ref.current, value)) {
         return ref.current;
     } else {
-        ref.current = internalValue;
-        return internalValue;
+        ref.current = value;
+        return value;
     }
 };
 

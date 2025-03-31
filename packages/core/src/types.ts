@@ -56,22 +56,20 @@ export type Validator<T> = {
 }
 
 export type SetTransformerParams<T> = {
-    set: Dispatch<Setter<T>>,
+    setter: Dispatch<Setter<T>>,
 }
 
 type TransformInfo<SetRes> = {
     set: SetRes
 }
 
-export type TransformParams<T, SetRes> = {
-    set: (params: SetTransformerParams<T>) => SetRes
-}
+export type SetterTransformMethod<T, SetRes> =  (params: SetTransformerParams<T>) => SetRes
 
 type Builder<T, TInfo extends TransformInfo<any> | undefined = undefined> = {
     withDefault: (value: NonNullable<T>) => Builder<NonNullable<T>, TInfo>
     validate: (validator: Validator<T>) => Builder<T, TInfo>
     withSerializer: (coder: Serializer<T>) => Builder<T, TInfo>
-    transform: <SetRes>(params: TransformParams<T, SetRes>) => Builder<T, TransformInfo<SetRes>>
+    withCustomSetter: <SetRes>(transformer: SetterTransformMethod<T, SetRes>) => Builder<T, TransformInfo<SetRes>>
 }
 
 type ListBuilder<T, TInfo extends TransformInfo<any> | undefined = undefined> = Omit<Builder<T, TInfo>, "withSerializer">

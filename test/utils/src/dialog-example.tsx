@@ -15,7 +15,7 @@ type DialogState = {
 const pageParams = create({
     "page": p.object<DialogState>()
         .withDefault({isOpen: false})
-        .transform(dialogTransform<StateShape>()),
+        .withCustomSetter(dialogTransform<StateShape>()),
 })
 
 const Example = () => {

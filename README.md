@@ -41,6 +41,7 @@ There are multiple issues with native URL state management in React:
   * support `replace` and `push` state methods
   * custom serialization
   * validation
+  * custom setters (e.g. bool `toggle` method, or dialog `open`)
 
 ## Simple Usage
 
@@ -129,14 +130,13 @@ import {create} from "@react-params/remix-v7";
 
 ### Advanced use cases
 
-* batching support [link](/test/utils/src/batch-example.tsx)
-* transforming the shape of useSet method [link](/test/utils/src/dialog-example.tsx)
 * links generation [link](/test/utils/src/link-example.tsx)
 * single param usage (without grouping) [link](/test/utils/src/single-param.tsx)
+* batching support [link](/test/utils/src/batch-example.tsx)
+* transforming the shape of useSet method [link](/test/utils/src/dialog-example.tsx)
+* transforming the shape of useSet method to support table pagination [link](/test/utils/src/pagination-example.tsx)
 
 ## API
-
-> *In progress*
 
 ### `create`
 
@@ -162,7 +162,7 @@ For each param defnied there is camelCase substitute with two methods:
 
 ```tsx
 const [value, setValue] = params.paramName.use();
-const onlySetValue = params.paramName.useSet();
+const setParamName = params.paramName.useSet();
 ```
 
 Besides this ReactParams provide:
@@ -188,14 +188,15 @@ Each of those method accepts options (currently `updateType` which specifies how
 
 All builders have following methods:
 * `withDefault` - sets a default value for the param, marking it as non nullable
-* `validate` - sets a custom serializer for the param
-* `transform` - transforms the param value setter result.
+* `validate` - sets a custom validator for the param
+* `withCustomSetter` - transforms the param setter result (useful for e.g. toggling a boolean value)
 * `withSerializer` - sets a custom serializer for the param
  
 Example:
 
 ```ts
 import {p} from "@react-params/core";
+
 p.string({updateType: "replace"}).withDefault("")
 ```
 
@@ -211,3 +212,4 @@ you can specify options:
 | updateType   | Sets the update type for the param.  |
 | defaultValue | Sets a default value for the param, marking it as non nullable                                         |
 | prefix       | Sets prefix to be used with param name                                                                 |
+

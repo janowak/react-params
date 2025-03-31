@@ -1,7 +1,8 @@
-import {createParams, ParamsCore} from "./core";
+import {create as createCore, ParamsCore} from "./core";
 import {
     AllTypedOptions,
-    BuildArg, Dispatch,
+    BuildArg,
+    Dispatch,
     FinalOptions,
     InferValue,
     ListOptions,
@@ -9,8 +10,8 @@ import {
     Params,
     RequiredOptions,
     Schema,
-    Serializer, Setter,
-    TransformParams,
+    Serializer,
+    Setter, SetterTransformMethod,
     UrlOptions,
     Validator
 } from "./types";
@@ -55,11 +56,11 @@ const typeBasedOptions: OptionsConfig = {
 
 class InternalBuilder {
     state: RequiredOptions<unknown>
-    transformParams: TransformParams<unknown, unknown> | null
+    customSetter: SetterTransformMethod<unknown, unknown> | null
 
     constructor(state: RequiredOptions<unknown>) {
         this.state = state;
-        this.transformParams = null
+        this.customSetter = null
     }
 
     withSerializer(serializer: Serializer<unknown>) {
@@ -86,8 +87,8 @@ class InternalBuilder {
         return this;
     }
 
-    transform<SetRes>(params: TransformParams<unknown, SetRes>) {
-        this.transformParams = params;
+    withCustomSetter<SetRes>(transformer: SetterTransformMethod<unknown, SetRes>) {
+        this.customSetter = transformer;
         return this;
     }
 }
@@ -125,11 +126,6 @@ export const p = new Proxy({} as OptionsBuilder, {
     },
 });
 
-const defaultSetTransformer: TransformParams<unknown, Dispatch<Setter<unknown>>> = {
-    set: ({set: setValue}) => {
-        return setValue;
-    }
-}
 
 const getWithPrefix = (prefix: string | undefined, prop: string) => {
     return prefix ? `${prefix}-${prop}` : prop;
@@ -142,45 +138,39 @@ const buildSingle = <T extends AllTypedOptions>({builder, params, prop, globalOp
                                                     prop: string,
                                                     globalOptions?: UrlOptions
                                                 }) => {
-    const options = builder.state;
-    const transformParams = builder.transformParams;
-    const typedOptions = options as RequiredOptions<T>;
-    const {set} = transformParams || defaultSetTransformer;
+    const {useParamSet, useParam} = params;
+    const {state, customSetter} = builder;
+    const typedOptions = state as RequiredOptions<T>;
+
+    const createSetter = (setter: Dispatch<Setter<T>>) => {
+        return customSetter ? customSetter({setter: setter as Dispatch<unknown>}) : setter;
+    }
 
     return {
         useSet: (options?: FinalOptions<T>) => {
             const memoedOptions = useMemoOptions(typedOptions, globalOptions, options);
             const paramName = getWithPrefix(memoedOptions.prefix, prop);
-            const setter = params.useParamSet(paramName, memoedOptions) as Dispatch<Setter<T>>
-            return useMemo(() => {
-                return set({
-                    set: setter as Dispatch<unknown>,
-                })
-            }, [setter])
+            const setter = useParamSet(paramName, memoedOptions) as Dispatch<Setter<T>>
+            return useMemo(() => createSetter(setter), [setter])
         },
         use: (options?: FinalOptions<T>) => {
             const memoedOptions = useMemoOptions(typedOptions, globalOptions, options);
             const paramName = getWithPrefix(memoedOptions.prefix, prop);
-            const res = params.useParamGet(paramName, memoedOptions);
-            const setter = params.useParamSet(paramName, memoedOptions);
-            const setterTransformed = useMemo(() => {
-                return set({
-                    set: setter as Dispatch<unknown>,
-                })
-            }, [setter])
+            const [res, setter] = useParam(paramName, memoedOptions);
+            const setterTransformed = useMemo(() => createSetter(setter), [setter])
 
             return [
                 res,
                 setterTransformed,
-                ]
-            }
+            ]
+        }
     }
 }
 
-let params: ReturnType<typeof createParams> | null = null;
+let core: ParamsCore | null = null;
 
 const init = once(() => {
-    params = createParams();
+    core = createCore();
 });
 
 export function create<T extends Schema>(schema: T, globalOptions?: UrlOptions): Params<T> {
@@ -215,8 +205,8 @@ export function create<T extends Schema>(schema: T, globalOptions?: UrlOptions):
             }
             if (prop === 'batch') {
                 return (fn: () => void) => {
-                    const {api} = params!.getInternals();
-                    batch(()=> {
+                    const {api} = core!
+                    batch(() => {
                         api.batch(fn);
                     })
                 }
@@ -226,7 +216,7 @@ export function create<T extends Schema>(schema: T, globalOptions?: UrlOptions):
 
             return buildSingle({
                 builder,
-                params: params!,
+                params: core!,
                 prop,
                 globalOptions: internalGlobalOptions,
             })
@@ -240,7 +230,7 @@ export function createSingle<T extends AllTypedOptions>(prop: string, definition
     const builder = definition as unknown as InternalBuilder;
     return buildSingle({
         builder,
-        params: params!,
+        params: core!,
         prop,
     }) as unknown as InferValue<T>
 }

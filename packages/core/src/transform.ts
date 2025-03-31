@@ -1,16 +1,15 @@
-import {TransformParams} from "./types";
+import {SetterTransformMethod} from "./types";
 
-export const toggleTransform: () => TransformParams<boolean, { toggle: () => void }> = () => {
-    return {
-        set: ({set: setValue}) => {
-            return {
-                toggle: () => {
-                    setValue((prev) => !prev)
-                },
-                set: setValue,
-            }
+export const toggleTransform: () => SetterTransformMethod<boolean, { toggle: () => void }> = () => {
+    return ({setter}) => {
+        return {
+            toggle: () => {
+                setter((prev) => !prev)
+            },
+            set: setter,
         }
     }
+
 }
 
 type OpenLike = {
@@ -27,34 +26,33 @@ type DialogMethods<R> = {
     setState: (state: R) => void;
 }
 
-export const dialogTransform = <R, >(): TransformParams<DialogValue<R>, DialogMethods<R>> => {
-    return {
-        set: ({set: setValue}) => {
-            return {
-                close: () => {
-                    const newValue = {
-                        isOpen: false,
-                    }
-                    setValue(newValue)
-                },
-                open: (state: R | undefined) => {
-                    const newValue = {
-                        isOpen: true,
-                        state,
-                    }
-                    setValue(newValue)
-                },
-                setState: (newState) => {
-                    setValue((prev: DialogValue<R>) => {
-                        return {
-                            state: newState,
-                            isOpen: prev.isOpen,
-                        }
-                    })
+export const dialogTransform = <R, >(): SetterTransformMethod<DialogValue<R>, DialogMethods<R>> => {
+    return ({setter}) => {
+        return {
+            close: () => {
+                const newValue = {
+                    isOpen: false,
                 }
+                setter(newValue)
+            },
+            open: (state: R | undefined) => {
+                const newValue = {
+                    isOpen: true,
+                    state,
+                }
+                setter(newValue)
+            },
+            setState: (newState) => {
+                setter((prev: DialogValue<R>) => {
+                    return {
+                        state: newState,
+                        isOpen: prev.isOpen,
+                    }
+                })
             }
         }
     }
+
 }
 
 type PageLike = {
@@ -68,45 +66,45 @@ export type PageMethods = {
     setPage: (page: number) => void;
     setSize: (size: number) => void;
 }
-export const pageTransform = (): TransformParams<PageLike, PageMethods> => {
-    return {
-        set: ({set: setValue }) => {
-            return {
-                next: () => {
-                    setValue((prev) => {
-                        return {
-                            page: prev.page + 1,
-                            size: prev.size,
-                        }
-                    })
-                },
-                prev: () => {
-                    setValue((prev) => {
-                        return {
-                            page: prev.page - 1,
-                            size: prev.size,
-                        }
-                    })
-                },
-                setPage: (page: number) => {
-                    setValue((prev) => {
-                        return {
-                            page,
-                            size: prev.size,
-                        }
-                    })
-                },
-                setSize: (size: number) => {
-                    setValue((prev) => {
-                        return {
-                            page: prev.page,
-                            size,
-                        }
-                    })
-                }
+
+export const pageTransform = (): SetterTransformMethod<PageLike, PageMethods> => {
+    return ({setter}) => {
+        return {
+            next: () => {
+                setter((prev) => {
+                    return {
+                        page: prev.page + 1,
+                        size: prev.size,
+                    }
+                })
+            },
+            prev: () => {
+                setter((prev) => {
+                    return {
+                        page: prev.page - 1,
+                        size: prev.size,
+                    }
+                })
+            },
+            setPage: (page: number) => {
+                setter((prev) => {
+                    return {
+                        page,
+                        size: prev.size,
+                    }
+                })
+            },
+            setSize: (size: number) => {
+                setter((prev) => {
+                    return {
+                        page: prev.page,
+                        size,
+                    }
+                })
             }
         }
     }
+
 }
 
 

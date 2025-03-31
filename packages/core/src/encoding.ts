@@ -45,17 +45,13 @@ export const createListSerializer = ({separator , item}: ListOptions<unknown>) =
         encode: (value: unknown[]) => {
             const builder = item as unknown as BuilderLike;
             const {encode} = builder.state;
-            return value.map((item)=> {
-                return encode(item);
-            }).join(separator);
+            return value.map((item) => encode(item)).join(separator);
         },
         decode: (value: string) => {
             const builder = item as unknown as BuilderLike;
             const {encode} = builder.state;
 
-            return value.split(separator || ",").map((item)=> {
-                return encode(item);
-            })
+            return value.split(separator || ",").map((item) => encode(item))
         }
     }
 }

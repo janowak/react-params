@@ -6,13 +6,12 @@ import {ParamStore} from "./store";
 import {getValue, isClient, isParamsTransition, paramsTransitioning, useSmartValue} from "./utils";
 import {decodeParam, encodeParam} from "./encoding";
 
-import {API, OptionsWithDefault, Setter, Value} from "./types";
+import {API, OptionsWithDefault, Setter} from "./types";
 import {useContextApi} from "./use-api";
 import {BatchingApi, defaultApi, dummyApi, withBatch} from "./api";
 
-let isInitialized = false;
-
-export const createParams = () => {
+export const create = () => {
+    let isInitialized = false;
     let paramsStore: ParamStore = null!;
     let api: BatchingApi = null!;
 
@@ -42,23 +41,37 @@ export const createParams = () => {
         }
     };
 
-    const decodeWithDefault = <T, >(value: string | undefined, defaultValue: Value<T>, options: OptionsWithDefault<T>): T => {
-        const internalDefaultValue = getValue(defaultValue);
-        try {
-            if (value === undefined) {
-                return internalDefaultValue
-            }
-            const decoded = decodeParam(value, options.decode)
-            const isValid = options.validate ? options.validate(decoded) : true
-            if (!isValid) {
-                options.onError?.(value, decoded)
-                return internalDefaultValue
-            }
-            return decoded
-        } catch {
-            const onErrorValue = options.onError?.(value, undefined)
-            return onErrorValue ?? internalDefaultValue
+    const decodeWithDefault = <T, >(value: string | undefined, defaultValue: T, {
+        decode,
+        onError,
+        validate
+    }: OptionsWithDefault<T>): T => {
+        if (value === undefined) {
+            return defaultValue
         }
+        const internalOnError = (decoded?: T) => {
+            const onErrorValue = onError?.(value, decoded)
+            return onErrorValue ?? defaultValue
+        }
+        try {
+            const decoded = decodeParam(value, decode)
+            const isValid = validate ? validate(decoded) : true
+            if (isValid) {
+                return decoded
+            } else {
+                return internalOnError(decoded)
+            }
+        } catch {
+            return internalOnError()
+        }
+    }
+
+    const useDefaultValue = <T, >({defaultValue}: OptionsWithDefault<T>) => {
+        const internalDefaultValue = useMemo(() => {
+            return getValue(defaultValue);
+        }, [defaultValue])
+
+        return useSmartValue(internalDefaultValue) as T
     }
 
     const useParamGet = <T, >(
@@ -68,12 +81,11 @@ export const createParams = () => {
         const contextApi = useContextApi();
         init(contextApi, isClient);
 
-        const {defaultValue} = options;
-        const smartDefaultValue = useSmartValue(defaultValue);
+        const internalDefaultValue = useDefaultValue(options);
 
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const value = isClient ? useStore(paramsStore, (s) => s[paramName]) : getLatestParams(api)[paramName];
-        const decodedValue = useMemo(() => decodeWithDefault(value, smartDefaultValue, options), [value, smartDefaultValue, options]);
+        const decodedValue = useMemo(() => decodeWithDefault(value, internalDefaultValue, options), [value, internalDefaultValue, options]);
 
         return useSmartValue(decodedValue) as T
     }
@@ -83,11 +95,9 @@ export const createParams = () => {
         options: OptionsWithDefault<T>,
     ) => {
         const contextApi = useContextApi();
-
         init(contextApi, isClient);
 
-        const {defaultValue} = options;
-        const smartDefaultValue = useSmartValue(defaultValue);
+        const internalDefaultValue = useDefaultValue(options);
 
         return useCallback((value: Setter<T>, state?: S) => {
             if (!isClient) {
@@ -97,12 +107,12 @@ export const createParams = () => {
             const {updateType = "replaceIn", encode} = options;
             const currentValue = paramsStore.state[paramName];
             const internalValue = typeof value === "function"
-                ? (value as (prev: T) => T)(decodeWithDefault(currentValue, smartDefaultValue, options))
+                ? (value as (prev: T) => T)(decodeWithDefault(currentValue, internalDefaultValue, options))
                 : value;
 
             const newValue = encodeParam(internalValue, encode);
 
-            if (currentValue === newValue || (currentValue === undefined && isEqual(smartDefaultValue, value))) {
+            if (currentValue === newValue || (currentValue === undefined && isEqual(internalDefaultValue, value))) {
                 return;
             }
 
@@ -115,7 +125,7 @@ export const createParams = () => {
             const isReplace = updateType.startsWith("replace");
             const searchParams = !clearAll ? new URLSearchParams(search) : new URLSearchParams();
 
-            if (!isEqual(smartDefaultValue, value)) {
+            if (!isEqual(internalDefaultValue, value)) {
                 searchParams.set(paramName, newValue);
             } else {
                 searchParams.delete(paramName);
@@ -128,7 +138,7 @@ export const createParams = () => {
             } else {
                 api.pushState(newHref, internalState);
             }
-        }, [paramName, smartDefaultValue, options])
+        }, [paramName, internalDefaultValue, options])
     }
 
     const useParam = <T, >(
@@ -144,13 +154,9 @@ export const createParams = () => {
         useParamGet,
         useParamSet,
         useParam,
-        getInternals: () => {
-            return {
-                paramsStore,
-                api,
-            }
-        }
+        paramsStore,
+        api,
     }
 }
 
-export type ParamsCore = ReturnType<typeof createParams>;
+export type ParamsCore = ReturnType<typeof create>;
