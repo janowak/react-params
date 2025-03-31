@@ -403,11 +403,11 @@ importers:
   test/remix:
     dependencies:
       '@react-params/core':
-        specifier: ^0.0.18
-        version: 0.0.18(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@react-params/remix':
         specifier: ^0.0.22
-        version: 0.0.22(@remix-run/react@2.16.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.2))(react-dom@19.1.0(react@19.1.0))(react-router-dom@6.30.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
+        version: 0.0.22(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@react-params/remix':
+        specifier: ^0.0.24
+        version: 0.0.24(@remix-run/react@2.16.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.2))(react-dom@19.1.0(react@19.1.0))(react-router-dom@6.30.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
       '@react-params/test-utils':
         specifier: workspace:*
         version: link:../utils
@@ -1625,15 +1625,21 @@ packages:
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  '@react-params/react-router-dom@0.0.18':
-    resolution: {integrity: sha512-60OMuQuDbX7VVQ7/I2O0+ki0SpKP6b6PzD5Qd6veYQSIxBXU86NxuAlLHxmygPV2eYsgv3yGUSz5ybJq0PR9YQ==}
+  '@react-params/core@0.0.22':
+    resolution: {integrity: sha512-wqVh7AihVIwvu5E1o1b7V2nxhg7SLRMquQ1oLXsDt0w4vP351ZxWU7Rb5Pn0mGYuxE9wSCawYVpbHmeqZxMKzQ==}
+    peerDependencies:
+      react: ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
+
+  '@react-params/react-router-dom@0.0.19':
+    resolution: {integrity: sha512-SRCNp33+lB7p5ViCQSm7PoxCZ3QUkuFIG56cPQ3CZGTbdRyMTequkw01vYeNmuqdXWNAaJWip69TiMQlp/t98Q==}
     peerDependencies:
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
       react-router-dom: ^6.0.0 ||^7.0.0
 
-  '@react-params/react-router-dom@0.0.19':
-    resolution: {integrity: sha512-SRCNp33+lB7p5ViCQSm7PoxCZ3QUkuFIG56cPQ3CZGTbdRyMTequkw01vYeNmuqdXWNAaJWip69TiMQlp/t98Q==}
+  '@react-params/react-router-dom@0.0.20':
+    resolution: {integrity: sha512-rPVNUHhjDojCTL3Kvj9vCAh5GdVYZiPZpyrxFoshTjDSRt+FgRLWUafzgIJ3v/0vFPE5SKS3bONumxTrmfg4Jg==}
     peerDependencies:
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -1646,8 +1652,8 @@ packages:
       react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
       react-router: ^7.0.0
 
-  '@react-params/remix@0.0.22':
-    resolution: {integrity: sha512-0cDtQpFmbtV7hlOeKReUX3U0yTGQhdVbYn7/bTmbE1e9/QCtETpS3xYTxWOwhaYASkKb6terK4ENl6RsJ384Wg==}
+  '@react-params/remix@0.0.24':
+    resolution: {integrity: sha512-GecRg6wLfL0wu+e7SIoc4iElZ+buLOkcT2VCSpRpoWEkq7t/zhe4Hwvz66x7KhkwKkRiuL/pZ9Wy+bLmQ//2Xg==}
     peerDependencies:
       '@remix-run/react': ^2.12.1
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -6824,16 +6830,23 @@ snapshots:
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
 
-  '@react-params/react-router-dom@0.0.18(react-dom@19.1.0(react@19.1.0))(react-router-dom@6.30.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)':
+  '@react-params/core@0.0.22(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
-      '@react-params/core': 0.0.20(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@tanstack/react-store': 0.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      lodash-es: 4.17.21
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
-      react-router-dom: 6.30.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
 
   '@react-params/react-router-dom@0.0.19(react-dom@19.1.0(react@19.1.0))(react-router-dom@6.30.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)':
     dependencies:
       '@react-params/core': 0.0.21(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+      react-router-dom: 6.30.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+
+  '@react-params/react-router-dom@0.0.20(react-dom@19.1.0(react@19.1.0))(react-router-dom@6.30.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@react-params/core': 0.0.22(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
       react-router-dom: 6.30.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -6846,10 +6859,10 @@ snapshots:
       react-router: 7.4.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react-use-event-hook: 0.9.6(react@19.1.0)
 
-  '@react-params/remix@0.0.22(@remix-run/react@2.16.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.2))(react-dom@19.1.0(react@19.1.0))(react-router-dom@6.30.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)':
+  '@react-params/remix@0.0.24(@remix-run/react@2.16.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.2))(react-dom@19.1.0(react@19.1.0))(react-router-dom@6.30.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)':
     dependencies:
-      '@react-params/core': 0.0.20(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@react-params/react-router-dom': 0.0.18(react-dom@19.1.0(react@19.1.0))(react-router-dom@6.30.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
+      '@react-params/core': 0.0.22(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@react-params/react-router-dom': 0.0.20(react-dom@19.1.0(react@19.1.0))(react-router-dom@6.30.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
       '@remix-run/react': 2.16.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.2)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
