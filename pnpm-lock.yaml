@@ -235,8 +235,8 @@ importers:
   test/react-router:
     dependencies:
       '@react-params/react-router':
-        specifier: ^0.0.22
-        version: 0.0.22(react-dom@19.1.0(react@19.1.0))(react-router@7.4.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
+        specifier: ^0.0.24
+        version: 0.0.24(react-dom@19.1.0(react@19.1.0))(react-router@7.4.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
       '@react-params/test-utils':
         specifier: workspace:*
         version: link:../utils
@@ -293,11 +293,11 @@ importers:
   test/react-router-dom-v6:
     dependencies:
       '@react-params/core':
-        specifier: ^0.0.18
-        version: 0.0.18(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^0.0.22
+        version: 0.0.22(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@react-params/react-router-dom':
-        specifier: ^0.0.19
-        version: 0.0.19(react-dom@19.1.0(react@19.1.0))(react-router-dom@6.30.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
+        specifier: ^0.0.20
+        version: 0.0.20(react-dom@19.1.0(react@19.1.0))(react-router-dom@6.30.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
       '@react-params/test-utils':
         specifier: workspace:*
         version: link:../utils
@@ -348,11 +348,11 @@ importers:
   test/react-router-dom-v7:
     dependencies:
       '@react-params/core':
-        specifier: workspace:*
-        version: link:../../packages/core
+        specifier: '*'
+        version: 0.0.22(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@react-params/react-router-dom':
-        specifier: workspace:*
-        version: link:../../packages/react-router-dom
+        specifier: '*'
+        version: 0.0.20(react-dom@19.1.0(react@19.1.0))(react-router-dom@7.4.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
       '@react-params/test-utils':
         specifier: workspace:*
         version: link:../utils
@@ -476,8 +476,8 @@ importers:
   test/utils:
     dependencies:
       '@react-params/core':
-        specifier: ^0.0.18
-        version: 0.0.18(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: ^0.0.22
+        version: 0.0.22(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react:
         specifier: ^19.0.0
         version: 19.0.0
@@ -522,8 +522,8 @@ importers:
   test/vanilla:
     dependencies:
       '@react-params/core':
-        specifier: ^0.0.18
-        version: 0.0.18(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: ^0.0.22
+        version: 0.0.22(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-params/test-utils':
         specifier: workspace:*
         version: link:../utils
@@ -571,8 +571,8 @@ importers:
   test/vanilla-monorepo:
     dependencies:
       '@react-params/core':
-        specifier: workspace:*
-        version: link:../../packages/core
+        specifier: '*'
+        version: 0.0.22(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-params/test-utils':
         specifier: workspace:*
         version: link:../utils
@@ -1607,36 +1607,11 @@ packages:
   '@radix-ui/rect@1.1.0':
     resolution: {integrity: sha512-A9+lCBZoaMJlVKcRBz2YByCG+Cp2t6nAnMnNba+XiWxnj6r4JUFqfsgwocMBZU9LPtdxC6wB56ySYpc7LQIoJg==}
 
-  '@react-params/core@0.0.18':
-    resolution: {integrity: sha512-5p2v+Hxj0zvlYKcL8grExqYaGLMwKUgjiED/CwbBp5iTPtLdgBhZQVFE8WErdKiyBEodRrWfwszwG5/Io/w06A==}
-    peerDependencies:
-      react: ^17.0.0 || ^18.0.0 || ^19.0.0
-      react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
-
-  '@react-params/core@0.0.20':
-    resolution: {integrity: sha512-k3h8W2q1R/0IeIOUwt/fjDabCmlLnNXOB7RY7OgYIaCT1fqRTymgSFjdVEls+aawcz846JHdEqeOgLzxWjhlbA==}
-    peerDependencies:
-      react: ^17.0.0 || ^18.0.0 || ^19.0.0
-      react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
-
-  '@react-params/core@0.0.21':
-    resolution: {integrity: sha512-dZYA8lorR5cvBAlV4/zgaCXc9KRWey8nWTqCHC4V43IiXGspLKZtYPxxnulR0pYBjsCApZQRrQbNaJVo47zS2w==}
-    peerDependencies:
-      react: ^17.0.0 || ^18.0.0 || ^19.0.0
-      react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
-
   '@react-params/core@0.0.22':
     resolution: {integrity: sha512-wqVh7AihVIwvu5E1o1b7V2nxhg7SLRMquQ1oLXsDt0w4vP351ZxWU7Rb5Pn0mGYuxE9wSCawYVpbHmeqZxMKzQ==}
     peerDependencies:
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
-
-  '@react-params/react-router-dom@0.0.19':
-    resolution: {integrity: sha512-SRCNp33+lB7p5ViCQSm7PoxCZ3QUkuFIG56cPQ3CZGTbdRyMTequkw01vYeNmuqdXWNAaJWip69TiMQlp/t98Q==}
-    peerDependencies:
-      react: ^17.0.0 || ^18.0.0 || ^19.0.0
-      react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
-      react-router-dom: ^6.0.0 ||^7.0.0
 
   '@react-params/react-router-dom@0.0.20':
     resolution: {integrity: sha512-rPVNUHhjDojCTL3Kvj9vCAh5GdVYZiPZpyrxFoshTjDSRt+FgRLWUafzgIJ3v/0vFPE5SKS3bONumxTrmfg4Jg==}
@@ -1645,8 +1620,8 @@ packages:
       react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
       react-router-dom: ^6.0.0 ||^7.0.0
 
-  '@react-params/react-router@0.0.22':
-    resolution: {integrity: sha512-blufxz2F3W7qpGi84UBYem/slN5dX7DACodrds5xeD+WUMNGzFUXOH4QQg0vexPbPUE1k+FYqMFqr/LUPs3nRQ==}
+  '@react-params/react-router@0.0.24':
+    resolution: {integrity: sha512-vVbbbc0OOfJ2GmUozUGcJ/XRh3wCg5JWh+NbV4wy2zgTJnxQVILba7Bx4563TEWLAHKD88hekXe1poc2hDd/uQ==}
     peerDependencies:
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -6802,33 +6777,12 @@ snapshots:
 
   '@radix-ui/rect@1.1.0': {}
 
-  '@react-params/core@0.0.18(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+  '@react-params/core@0.0.22(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@tanstack/react-store': 0.7.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       lodash-es: 4.17.21
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
-
-  '@react-params/core@0.0.18(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
-    dependencies:
-      '@tanstack/react-store': 0.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      lodash-es: 4.17.21
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
-
-  '@react-params/core@0.0.20(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
-    dependencies:
-      '@tanstack/react-store': 0.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      lodash-es: 4.17.21
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
-
-  '@react-params/core@0.0.21(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
-    dependencies:
-      '@tanstack/react-store': 0.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      lodash-es: 4.17.21
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
 
   '@react-params/core@0.0.22(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
@@ -6837,13 +6791,6 @@ snapshots:
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
 
-  '@react-params/react-router-dom@0.0.19(react-dom@19.1.0(react@19.1.0))(react-router-dom@6.30.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)':
-    dependencies:
-      '@react-params/core': 0.0.21(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
-      react-router-dom: 6.30.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-
   '@react-params/react-router-dom@0.0.20(react-dom@19.1.0(react@19.1.0))(react-router-dom@6.30.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)':
     dependencies:
       '@react-params/core': 0.0.22(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -6851,9 +6798,16 @@ snapshots:
       react-dom: 19.1.0(react@19.1.0)
       react-router-dom: 6.30.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
 
-  '@react-params/react-router@0.0.22(react-dom@19.1.0(react@19.1.0))(react-router@7.4.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)':
+  '@react-params/react-router-dom@0.0.20(react-dom@19.1.0(react@19.1.0))(react-router-dom@7.4.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)':
     dependencies:
-      '@react-params/core': 0.0.20(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@react-params/core': 0.0.22(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+      react-router-dom: 7.4.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+
+  '@react-params/react-router@0.0.24(react-dom@19.1.0(react@19.1.0))(react-router@7.4.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@react-params/core': 0.0.22(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
       react-router: 7.4.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
