@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "dependencies": {
-    "@react-params/core": "^0.0.26",
+    "@react-params/core": "link:latest @react-params/react-router-dom@latest @react-params/react-router@latest @react-params/remix@latest",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

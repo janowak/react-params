@@ -297,8 +297,8 @@ importers:
   test/react-router-dom-v6:
     dependencies:
       '@react-params/core':
-        specifier: ^0.0.26
-        version: 0.0.26(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: link:latest @react-params/react-router-dom@latest @react-params/react-router@latest @react-params/remix@latest
+        version: link:latest @react-params/react-router-dom@latest @react-params/react-router@latest @react-params/remix@latest
       '@react-params/react-router-dom':
         specifier: ^0.0.24
         version: 0.0.24(react-dom@19.1.0(react@19.1.0))(react-router-dom@6.30.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
@@ -352,8 +352,8 @@ importers:
   test/react-router-dom-v7:
     dependencies:
       '@react-params/core':
-        specifier: ^0.0.26
-        version: 0.0.26(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: link:latest @react-params/react-router-dom@latest @react-params/react-router@latest @react-params/remix@latest
+        version: link:latest @react-params/react-router-dom@latest @react-params/react-router@latest @react-params/remix@latest
       '@react-params/react-router-dom':
         specifier: ^0.0.24
         version: 0.0.24(react-dom@19.1.0(react@19.1.0))(react-router-dom@7.4.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
@@ -407,8 +407,8 @@ importers:
   test/remix:
     dependencies:
       '@react-params/core':
-        specifier: ^0.0.26
-        version: 0.0.26(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: link:latest @react-params/react-router-dom@latest @react-params/react-router@latest @react-params/remix@latest
+        version: link:latest @react-params/react-router-dom@latest @react-params/react-router@latest @react-params/remix@latest
       '@react-params/remix':
         specifier: ^0.0.28
         version: 0.0.28(@remix-run/react@2.16.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.2))(react-dom@19.1.0(react@19.1.0))(react-router-dom@6.30.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
@@ -480,8 +480,8 @@ importers:
   test/utils:
     dependencies:
       '@react-params/core':
-        specifier: ^0.0.26
-        version: 0.0.26(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: link:latest @react-params/react-router-dom@latest @react-params/react-router@latest @react-params/remix@latest
+        version: link:latest @react-params/react-router-dom@latest @react-params/react-router@latest @react-params/remix@latest
       react:
         specifier: ^19.0.0
         version: 19.0.0
@@ -526,8 +526,8 @@ importers:
   test/vanilla:
     dependencies:
       '@react-params/core':
-        specifier: ^0.0.26
-        version: 0.0.26(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: link:latest @react-params/react-router-dom@latest @react-params/react-router@latest @react-params/remix@latest
+        version: link:latest @react-params/react-router-dom@latest @react-params/react-router@latest @react-params/remix@latest
       '@react-params/test-utils':
         specifier: workspace:*
         version: link:../utils
@@ -575,8 +575,8 @@ importers:
   test/vanilla-monorepo:
     dependencies:
       '@react-params/core':
-        specifier: ^0.0.26
-        version: 0.0.26(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: link:latest @react-params/react-router-dom@latest @react-params/react-router@latest @react-params/remix@latest
+        version: link:latest @react-params/react-router-dom@latest @react-params/react-router@latest @react-params/remix@latest
       '@react-params/test-utils':
         specifier: workspace:*
         version: link:../utils
@@ -6786,13 +6786,6 @@ snapshots:
 
   '@radix-ui/rect@1.1.0': {}
 
-  '@react-params/core@0.0.26(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
-    dependencies:
-      '@tanstack/react-store': 0.7.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      lodash-es: 4.17.21
-      react: 19.0.0
-      react-dom: 19.0.0(react@19.0.0)
-
   '@react-params/core@0.0.26(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
       '@tanstack/react-store': 0.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -7624,23 +7617,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/eslint-plugin@8.24.1(@typescript-eslint/parser@8.24.1(eslint@9.20.1(jiti@2.4.2))(typescript@5.7.3))(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2)':
-    dependencies:
-      '@eslint-community/regexpp': 4.12.1
-      '@typescript-eslint/parser': 8.24.1(eslint@9.20.1(jiti@2.4.2))(typescript@5.7.3)
-      '@typescript-eslint/scope-manager': 8.24.1
-      '@typescript-eslint/type-utils': 8.24.1(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2)
-      '@typescript-eslint/utils': 8.24.1(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2)
-      '@typescript-eslint/visitor-keys': 8.24.1
-      eslint: 9.23.0(jiti@2.4.2)
-      graphemer: 1.4.0
-      ignore: 5.3.2
-      natural-compare: 1.4.0
-      ts-api-utils: 2.0.1(typescript@5.8.2)
-      typescript: 5.8.2
-    transitivePeerDependencies:
-      - supports-color
-
   '@typescript-eslint/eslint-plugin@8.24.1(@typescript-eslint/parser@8.24.1(eslint@9.21.0(jiti@2.4.2))(typescript@5.8.2))(eslint@9.21.0(jiti@2.4.2))(typescript@5.8.2)':
     dependencies:
       '@eslint-community/regexpp': 4.12.1
@@ -7650,6 +7626,23 @@ snapshots:
       '@typescript-eslint/utils': 8.24.1(eslint@9.21.0(jiti@2.4.2))(typescript@5.8.2)
       '@typescript-eslint/visitor-keys': 8.24.1
       eslint: 9.21.0(jiti@2.4.2)
+      graphemer: 1.4.0
+      ignore: 5.3.2
+      natural-compare: 1.4.0
+      ts-api-utils: 2.0.1(typescript@5.8.2)
+      typescript: 5.8.2
+    transitivePeerDependencies:
+      - supports-color
+
+  '@typescript-eslint/eslint-plugin@8.24.1(@typescript-eslint/parser@8.24.1(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2)':
+    dependencies:
+      '@eslint-community/regexpp': 4.12.1
+      '@typescript-eslint/parser': 8.24.1(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2)
+      '@typescript-eslint/scope-manager': 8.24.1
+      '@typescript-eslint/type-utils': 8.24.1(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2)
+      '@typescript-eslint/utils': 8.24.1(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2)
+      '@typescript-eslint/visitor-keys': 8.24.1
+      eslint: 9.23.0(jiti@2.4.2)
       graphemer: 1.4.0
       ignore: 5.3.2
       natural-compare: 1.4.0
@@ -11533,7 +11526,7 @@ snapshots:
 
   typescript-eslint@8.24.1(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2):
     dependencies:
-      '@typescript-eslint/eslint-plugin': 8.24.1(@typescript-eslint/parser@8.24.1(eslint@9.20.1(jiti@2.4.2))(typescript@5.7.3))(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2)
+      '@typescript-eslint/eslint-plugin': 8.24.1(@typescript-eslint/parser@8.24.1(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2)
       '@typescript-eslint/parser': 8.24.1(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2)
       '@typescript-eslint/utils': 8.24.1(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2)
       eslint: 9.23.0(jiti@2.4.2)

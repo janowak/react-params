@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@react-params/core": "^0.0.26",
+    "@react-params/core": "link:latest @react-params/react-router-dom@latest @react-params/react-router@latest @react-params/remix@latest",
     "@react-params/test-utils": "workspace:*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
