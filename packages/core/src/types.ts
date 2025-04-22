@@ -90,6 +90,7 @@ export type OptionsBuilder = {
     datetime: ParamBuilder<Date>,
     date: ParamBuilder<Date>,
     object: <T extends object>(options?: UrlOptions) => Builder<T | null>,
+    enum: <T extends string>(options?: UrlOptions) => Builder<T | null>,
     list: <T>(options?: ListOptions<T>) => ListBuilder<NonNullable<T>[] | null>,
 }
 

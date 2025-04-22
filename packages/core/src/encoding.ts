@@ -50,7 +50,7 @@ export const createListSerializer = ({separator , item}: ListOptions<unknown>) =
         decode: (value: string) => {
             const builder = item as unknown as BuilderLike;
             const {encode} = builder.state;
-
+            if (!value) { return [] }
             return value.split(separator || ",").map((item) => encode(item))
         }
     }

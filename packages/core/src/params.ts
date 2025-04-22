@@ -40,6 +40,9 @@ const typeBasedOptions: OptionsConfig = {
     string: {
         ...stringSerializer,
     },
+    enum: {
+        ...stringSerializer,
+    },
     number: {
         ...numberSerializer,
     },
